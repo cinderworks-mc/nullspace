@@ -1,0 +1,426 @@
+{
+  "display_name": "Handcrafted Living Room",
+  "description": "A furnished home: couch and coffee table on a rug, a bed with a nightstand, a kitchen run with oven and cupboards, a dining table and warm lanterns. Needs Handcrafted 4.0.x.",
+  "requires_mods": [
+    "handcrafted"
+  ],
+  "blocks": [
+    {
+      "x": -4,
+      "y": 0,
+      "z": -3,
+      "block": "handcrafted:oak_fancy_bed",
+      "fallback": "minecraft:red_bed",
+      "properties": {
+        "facing": "west",
+        "part": "head",
+        "color": "red"
+      },
+      "fallbackProperties": {
+        "facing": "west",
+        "part": "head"
+      }
+    },
+    {
+      "x": -3,
+      "y": 0,
+      "z": -3,
+      "block": "handcrafted:oak_fancy_bed",
+      "fallback": "minecraft:red_bed",
+      "properties": {
+        "facing": "west",
+        "part": "foot",
+        "color": "red"
+      },
+      "fallbackProperties": {
+        "facing": "west",
+        "part": "foot"
+      }
+    },
+    {
+      "x": -4,
+      "y": 0,
+      "z": -2,
+      "block": "handcrafted:oak_nightstand",
+      "fallback": "minecraft:barrel",
+      "properties": {
+        "facing": "east"
+      },
+      "fallbackProperties": {
+        "facing": "east"
+      }
+    },
+    {
+      "x": -4,
+      "y": 1,
+      "z": -2,
+      "block": "minecraft:lantern"
+    },
+    {
+      "x": -4,
+      "y": 0,
+      "z": 0,
+      "block": "handcrafted:oak_couch",
+      "fallback": "minecraft:oak_stairs",
+      "properties": {
+        "facing": "east",
+        "shape": "right",
+        "color": "red"
+      },
+      "fallbackProperties": {
+        "facing": "west"
+      }
+    },
+    {
+      "x": -3,
+      "y": 0,
+      "z": 0,
+      "block": "minecraft:red_carpet"
+    },
+    {
+      "x": -4,
+      "y": 0,
+      "z": 1,
+      "block": "handcrafted:oak_couch",
+      "fallback": "minecraft:oak_stairs",
+      "properties": {
+        "facing": "east",
+        "shape": "middle",
+        "color": "red"
+      },
+      "fallbackProperties": {
+        "facing": "west"
+      }
+    },
+    {
+      "x": -3,
+      "y": 0,
+      "z": 1,
+      "block": "minecraft:red_carpet"
+    },
+    {
+      "x": -4,
+      "y": 0,
+      "z": 2,
+      "block": "handcrafted:oak_couch",
+      "fallback": "minecraft:oak_stairs",
+      "properties": {
+        "facing": "east",
+        "shape": "left",
+        "color": "red"
+      },
+      "fallbackProperties": {
+        "facing": "west"
+      }
+    },
+    {
+      "x": -3,
+      "y": 0,
+      "z": 2,
+      "block": "minecraft:red_carpet"
+    },
+    {
+      "x": -2,
+      "y": 0,
+      "z": 1,
+      "block": "handcrafted:oak_table",
+      "fallback": "minecraft:oak_slab"
+    },
+    {
+      "x": -2,
+      "y": 1,
+      "z": 1,
+      "block": "handcrafted:stackable_book",
+      "fallback": "minecraft:bookshelf",
+      "properties": {
+        "books": "3",
+        "facing": "north"
+      }
+    },
+    {
+      "x": -2,
+      "y": 0,
+      "z": 0,
+      "block": "handcrafted:oak_chair",
+      "fallback": "minecraft:oak_stairs",
+      "properties": {
+        "facing": "south",
+        "color": "red"
+      },
+      "fallbackProperties": {
+        "facing": "north"
+      }
+    },
+    {
+      "x": -2,
+      "y": 0,
+      "z": 2,
+      "block": "handcrafted:oak_chair",
+      "fallback": "minecraft:oak_stairs",
+      "properties": {
+        "facing": "north",
+        "color": "red"
+      },
+      "fallbackProperties": {
+        "facing": "south"
+      }
+    },
+    {
+      "x": -4,
+      "y": 0,
+      "z": 3,
+      "block": "handcrafted:oak_side_table",
+      "fallback": "minecraft:oak_slab",
+      "properties": {
+        "facing": "east"
+      }
+    },
+    {
+      "x": -4,
+      "y": 1,
+      "z": 3,
+      "block": "minecraft:lantern"
+    },
+    {
+      "x": -4,
+      "y": 0,
+      "z": 4,
+      "block": "handcrafted:oak_shelf",
+      "fallback": "minecraft:bookshelf",
+      "properties": {
+        "facing": "east"
+      }
+    },
+    {
+      "x": -3,
+      "y": 0,
+      "z": 4,
+      "block": "handcrafted:terracotta_medium_pot",
+      "fallback": "minecraft:flower_pot"
+    },
+    {
+      "x": 4,
+      "y": 0,
+      "z": -3,
+      "block": "handcrafted:oak_cupboard",
+      "fallback": "minecraft:barrel",
+      "properties": {
+        "facing": "west"
+      },
+      "fallbackProperties": {
+        "facing": "west"
+      }
+    },
+    {
+      "x": 4,
+      "y": 0,
+      "z": -2,
+      "block": "handcrafted:oak_counter",
+      "fallback": "minecraft:oak_planks",
+      "properties": {
+        "facing": "west",
+        "counter": "oak_planks"
+      }
+    },
+    {
+      "x": 4,
+      "y": 0,
+      "z": -1,
+      "block": "handcrafted:oven",
+      "fallback": "minecraft:smoker",
+      "properties": {
+        "facing": "west"
+      },
+      "fallbackProperties": {
+        "facing": "west"
+      }
+    },
+    {
+      "x": 4,
+      "y": 1,
+      "z": -1,
+      "block": "handcrafted:kitchen_hood",
+      "fallback": "minecraft:iron_bars",
+      "properties": {
+        "facing": "west"
+      }
+    },
+    {
+      "x": 4,
+      "y": 0,
+      "z": 0,
+      "block": "handcrafted:oak_counter",
+      "fallback": "minecraft:oak_planks",
+      "properties": {
+        "facing": "west",
+        "counter": "oak_planks"
+      }
+    },
+    {
+      "x": 4,
+      "y": 0,
+      "z": 1,
+      "block": "handcrafted:oak_drawer",
+      "fallback": "minecraft:barrel",
+      "properties": {
+        "facing": "west"
+      },
+      "fallbackProperties": {
+        "facing": "west"
+      }
+    },
+    {
+      "x": 4,
+      "y": 1,
+      "z": -2,
+      "block": "handcrafted:wood_crockery_combo",
+      "fallback": "minecraft:oak_pressure_plate",
+      "properties": {
+        "facing": "west"
+      }
+    },
+    {
+      "x": 4,
+      "y": 1,
+      "z": 0,
+      "block": "handcrafted:berry_jam_jar",
+      "fallback": "minecraft:flower_pot",
+      "properties": {
+        "facing": "west",
+        "jars": "2"
+      }
+    },
+    {
+      "x": 4,
+      "y": 1,
+      "z": -3,
+      "block": "minecraft:lantern"
+    },
+    {
+      "x": 3,
+      "y": 0,
+      "z": -3,
+      "block": "minecraft:crafting_table"
+    },
+    {
+      "x": 2,
+      "y": 0,
+      "z": -3,
+      "block": "minecraft:furnace",
+      "properties": {
+        "facing": "south"
+      }
+    },
+    {
+      "x": 3,
+      "y": 0,
+      "z": 2,
+      "block": "handcrafted:oak_table",
+      "fallback": "minecraft:oak_slab",
+      "properties": {
+        "shape": "south_side"
+      }
+    },
+    {
+      "x": 3,
+      "y": 0,
+      "z": 3,
+      "block": "handcrafted:oak_table",
+      "fallback": "minecraft:oak_slab",
+      "properties": {
+        "shape": "north_side"
+      }
+    },
+    {
+      "x": 3,
+      "y": 1,
+      "z": 2,
+      "block": "handcrafted:terracotta_plate",
+      "fallback": "minecraft:oak_pressure_plate",
+      "properties": {
+        "facing": "south",
+        "pieces": "2"
+      }
+    },
+    {
+      "x": 3,
+      "y": 1,
+      "z": 3,
+      "block": "minecraft:candle",
+      "properties": {
+        "candles": "3",
+        "lit": "true"
+      }
+    },
+    {
+      "x": 2,
+      "y": 0,
+      "z": 2,
+      "block": "handcrafted:oak_chair",
+      "fallback": "minecraft:oak_stairs",
+      "properties": {
+        "facing": "east"
+      },
+      "fallbackProperties": {
+        "facing": "west"
+      }
+    },
+    {
+      "x": 2,
+      "y": 0,
+      "z": 3,
+      "block": "handcrafted:oak_chair",
+      "fallback": "minecraft:oak_stairs",
+      "properties": {
+        "facing": "east"
+      },
+      "fallbackProperties": {
+        "facing": "west"
+      }
+    },
+    {
+      "x": 4,
+      "y": 0,
+      "z": 2,
+      "block": "handcrafted:oak_chair",
+      "fallback": "minecraft:oak_stairs",
+      "properties": {
+        "facing": "west"
+      },
+      "fallbackProperties": {
+        "facing": "east"
+      }
+    },
+    {
+      "x": 4,
+      "y": 0,
+      "z": 3,
+      "block": "handcrafted:oak_chair",
+      "fallback": "minecraft:oak_stairs",
+      "properties": {
+        "facing": "west"
+      },
+      "fallbackProperties": {
+        "facing": "east"
+      }
+    },
+    {
+      "x": -2,
+      "y": 5,
+      "z": 1,
+      "block": "minecraft:lantern",
+      "properties": {
+        "hanging": "true"
+      }
+    },
+    {
+      "x": 3,
+      "y": 5,
+      "z": 2,
+      "block": "minecraft:lantern",
+      "properties": {
+        "hanging": "true"
+      }
+    }
+  ]
+}

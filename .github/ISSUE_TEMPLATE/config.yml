@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: report a security problem privately
+    url: https://github.com/cinderworks-mc/nullspace/security/advisories/new
+    about: please don't open a public issue for a way to break into an archive, duplicate items or crash a server. use a private security advisory (see SECURITY.md).

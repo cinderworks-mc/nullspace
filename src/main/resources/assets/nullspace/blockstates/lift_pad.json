@@ -1,0 +1,6 @@
+{
+  "variants": {
+    "way=down": { "model": "nullspace:block/lift_pad_down" },
+    "way=up": { "model": "nullspace:block/lift_pad_up" }
+  }
+}

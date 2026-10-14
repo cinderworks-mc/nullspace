@@ -1,0 +1,58 @@
+modLoader="javafml"
+loaderVersion="[4,)"
+license="MIT AND CC-BY-4.0"
+[[mods]]
+modId="nullspace"
+version="${version}"
+displayName="Nullspace"
+logoFile="icon.png"
+authors="cinderworks"
+credits="Tempad by Terrarium (required dependency, not bundled)"
+description='''A personal workshop outside ordinary space, reached through Tempad gateways. Each player owns a furnished, expandable archive with guest permissions, shell customization and optional starter rooms (data-driven; Create, Sophisticated Storage, Handcrafted, Supplementaries and Farmer's Delight rooms appear when those mods are installed).'''
+[[dependencies.nullspace]]
+modId="neoforge"
+type="required"
+versionRange="[21.1.252,21.2)"
+ordering="NONE"
+side="BOTH"
+[[dependencies.nullspace]]
+modId="minecraft"
+type="required"
+versionRange="[1.21.1]"
+ordering="NONE"
+side="BOTH"
+[[dependencies.nullspace]]
+modId="tempad"
+type="required"
+versionRange="[3.0.4,3.1)"
+ordering="AFTER"
+side="BOTH"
+# Optional claim mods: Nullspace vetoes claiming in the archive when they are present. The range is open on purpose (no version is excluded).
+[[dependencies.nullspace]]
+modId="openpartiesandclaims"
+type="optional"
+versionRange="[0,)"
+ordering="NONE"
+side="BOTH"
+[[dependencies.nullspace]]
+modId="ftbchunks"
+type="optional"
+versionRange="[0,)"
+ordering="NONE"
+side="BOTH"
+# Team access: party members of this mod can be let in by an archive's owner. Optional, never bundled (All Rights Reserved), any version.
+[[dependencies.nullspace]]
+modId="ftbteams"
+type="optional"
+versionRange="[0,)"
+ordering="NONE"
+side="BOTH"
+# Optional Carry On: the guard is compiled against its event class and data API and loaded only when it is present. Observed on every 1.21.1 release
+# (2.2.2.11, 2.2.4.4, 2.2.5.8, 2.2.6.13). The range is open on purpose: a closed range makes FML refuse to start with a version outside it; a real API
+# mismatch is caught at startup and at event time and switches the guard off with a logged error instead of failing the launch.
+[[dependencies.nullspace]]
+modId="carryon"
+type="optional"
+versionRange="[0,)"
+ordering="NONE"
+side="BOTH"

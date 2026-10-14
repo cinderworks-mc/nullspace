@@ -1,0 +1,14 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:white_wool",
+    "minecraft:white_concrete",
+    "minecraft:quartz_block",
+    "minecraft:smooth_quartz",
+    "minecraft:white_terracotta",
+    "minecraft:bone_block",
+    "minecraft:birch_planks",
+    "minecraft:smooth_sandstone",
+    "minecraft:cut_sandstone"
+  ]
+}

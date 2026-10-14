@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {"item": "minecraft:amethyst_shard"},
+    "E": {"item": "minecraft:ender_pearl"},
+    "C": {"item": "minecraft:copper_ingot"},
+    "L": {"item": "tempad:location_card"},
+    "K": {"item": "minecraft:dried_kelp"},
+    "T": {"item": "tempad:chronon_cell"}
+  },
+  "pattern": ["AEA", "CLC", "KTK"],
+  "result": {"id": "nullspace:archive_link_upgrade", "count": 1}
+}

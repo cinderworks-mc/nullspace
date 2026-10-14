@@ -1,0 +1,60 @@
+plugins {
+    id 'java-library'
+    id 'net.neoforged.moddev' version '2.0.148'
+}
+version = mod_version
+group = 'dev.nullspace'
+base { archivesName = 'nullspace-1.21.1' }
+java { toolchain.languageVersion = JavaLanguageVersion.of(21); withSourcesJar() }
+// test only code (the gametests) lives in src/gametest: on the classpath of the dev runs, never in the jar
+sourceSets { gametest { compileClasspath += sourceSets.main.output; runtimeClasspath += sourceSets.main.output } }
+configurations {
+    gametestImplementation.extendsFrom implementation
+    gametestCompileOnly.extendsFrom compileOnly
+    gametestRuntimeOnly.extendsFrom runtimeOnly
+}
+repositories {
+    mavenCentral()
+    maven { url = 'https://api.modrinth.com/maven' }
+    maven { url = 'https://maven.teamresourceful.com/repository/maven-public/' }
+    maven { url = 'https://thedarkcolour.github.io/KotlinForForge/' }
+    maven { url = 'https://maven.ftb.dev/releases'; content { includeGroup 'dev.ftb.mods' } }
+    maven { url = 'https://maven.architectury.dev/'; content { includeGroup 'dev.architectury' } }
+}
+neoForge {
+    version = project.neo_version
+    runs {
+        client { client(); systemProperty 'neoforge.enabledGameTestNamespaces', 'nullspace' }
+        server { server(); programArgument '--nogui'; systemProperty 'neoforge.enabledGameTestNamespaces', 'nullspace' }
+        // own game directory, so the gametest world never mixes with runServer or runClient
+        gameTestServer { type = 'gameTestServer'; gameDirectory.set(file('run-gametest')); systemProperty 'neoforge.enabledGameTestNamespaces', 'nullspace' }
+        data { data(); programArguments.addAll '--mod','nullspace','--all','--output',file('src/generated/resources').absolutePath,'--existing',file('src/main/resources').absolutePath }
+        configureEach { logLevel = org.slf4j.event.Level.INFO; sourceSet = sourceSets.gametest }
+    }
+    mods { nullspace { sourceSet(sourceSets.main); sourceSet(sourceSets.gametest) } }
+    addModdingDependenciesTo(sourceSets.gametest)
+}
+dependencies {
+    implementation 'maven.modrinth:tempad:3.0.4'
+    implementation 'com.teamresourceful.resourcefullib:resourcefullib-neoforge-1.21:3.0.12'
+    implementation 'com.teamresourceful.resourcefulconfig:resourcefulconfig-neoforge-1.21:3.0.10'
+    implementation 'thedarkcolour:kotlinforforge-neoforge:5.3.0'
+    // Soft integration: compiled against Carry On's event class, never required at runtime (loaded only when ModList reports it).
+    compileOnly 'maven.modrinth:carry-on:PV8oLZ1q'
+    // Soft dependencies (claim mods): compile-only, never bundled, never needed at runtime. Code that touches their types lives only in dev.nullspace.integration.<mod>.
+    compileOnly 'maven.modrinth:open-parties-and-claims:neoforge-1.21.1-0.32.7'
+    compileOnly 'dev.ftb.mods:ftb-chunks-neoforge:2101.1.22'
+    compileOnly 'dev.ftb.mods:ftb-teams-neoforge:2101.1.11'
+    compileOnly 'dev.ftb.mods:ftb-library-neoforge:2101.1.34'
+    compileOnly 'dev.architectury:architectury-neoforge:13.0.8'
+    testImplementation platform('org.junit:junit-bom:5.11.4')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+sourceSets.main.resources.srcDir 'src/generated/resources'
+tasks.withType(JavaCompile).configureEach { options.encoding = 'UTF-8' }
+tasks.named('test') { useJUnitPlatform(); testLogging { events 'failed', 'skipped', 'passed' } }
+tasks.named('processResources') { filesMatching('META-INF/neoforge.mods.toml') { expand version: project.version } }
+tasks.withType(AbstractArchiveTask).configureEach { preserveFileTimestamps = false; reproducibleFileOrder = true }
+
+tasks.named('jar') { from('LICENSE'); from('LICENSE-ASSETS.md') }

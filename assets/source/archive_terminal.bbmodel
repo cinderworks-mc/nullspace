@@ -1,0 +1,909 @@
+{
+  "meta": {
+    "format_version": "4.10",
+    "model_format": "java_block",
+    "box_uv": false
+  },
+  "name": "Archive Terminal",
+  "resolution": {
+    "width": 16,
+    "height": 16
+  },
+  "elements": [
+    {
+      "name": "walnut plinth",
+      "from": [
+        1,
+        0,
+        1
+      ],
+      "to": [
+        15,
+        3,
+        15
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 3
+        },
+        "east": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 3
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 3
+        },
+        "west": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 3
+        },
+        "up": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 3
+        },
+        "down": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 3
+        }
+      },
+      "uuid": "d2cb3b53-d2ed-50b3-885e-374e4fd30d1e",
+      "type": "cube",
+      "box_uv": false
+    },
+    {
+      "name": "worktop and keys",
+      "from": [
+        1,
+        3,
+        1
+      ],
+      "to": [
+        15,
+        4,
+        15
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            1,
+            12,
+            15,
+            13
+          ],
+          "texture": 1
+        },
+        "east": {
+          "uv": [
+            1,
+            12,
+            15,
+            13
+          ],
+          "texture": 1
+        },
+        "south": {
+          "uv": [
+            1,
+            12,
+            15,
+            13
+          ],
+          "texture": 1
+        },
+        "west": {
+          "uv": [
+            1,
+            12,
+            15,
+            13
+          ],
+          "texture": 1
+        },
+        "up": {
+          "uv": [
+            1,
+            1,
+            15,
+            15
+          ],
+          "texture": 2
+        },
+        "down": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 3
+        }
+      },
+      "uuid": "9c98989f-b4c6-5514-9a06-d025d1251a72",
+      "type": "cube",
+      "box_uv": false
+    },
+    {
+      "name": "monitor cabinet",
+      "from": [
+        2,
+        4,
+        5
+      ],
+      "to": [
+        14,
+        15,
+        14
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            2,
+            1,
+            14,
+            12
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            5,
+            1,
+            14,
+            12
+          ],
+          "texture": 1
+        },
+        "south": {
+          "uv": [
+            2,
+            1,
+            14,
+            12
+          ],
+          "texture": 1
+        },
+        "west": {
+          "uv": [
+            2,
+            1,
+            11,
+            12
+          ],
+          "texture": 1
+        },
+        "up": {
+          "uv": [
+            2,
+            1,
+            14,
+            10
+          ],
+          "texture": 1
+        },
+        "down": {
+          "uv": [
+            2,
+            1,
+            14,
+            10
+          ],
+          "texture": 1
+        }
+      },
+      "uuid": "4c697bb7-f18e-5267-81bd-e9de1de4633f",
+      "type": "cube",
+      "box_uv": false
+    },
+    {
+      "name": "power knob",
+      "from": [
+        3,
+        6,
+        4.2
+      ],
+      "to": [
+        4.5,
+        7.5,
+        5
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            2,
+            1,
+            3,
+            2
+          ],
+          "texture": 2
+        },
+        "east": {
+          "uv": [
+            2,
+            1,
+            3,
+            2
+          ],
+          "texture": 2
+        },
+        "west": {
+          "uv": [
+            2,
+            1,
+            3,
+            2
+          ],
+          "texture": 2
+        },
+        "up": {
+          "uv": [
+            2,
+            1,
+            3,
+            2
+          ],
+          "texture": 2
+        }
+      },
+      "uuid": "88a58730-eb3a-5743-9115-1d53b87619e1",
+      "type": "cube",
+      "box_uv": false
+    },
+    {
+      "name": "tune knob",
+      "from": [
+        5,
+        6,
+        4.2
+      ],
+      "to": [
+        6.5,
+        7.5,
+        5
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            2,
+            1,
+            3,
+            2
+          ],
+          "texture": 2
+        },
+        "east": {
+          "uv": [
+            2,
+            1,
+            3,
+            2
+          ],
+          "texture": 2
+        },
+        "west": {
+          "uv": [
+            2,
+            1,
+            3,
+            2
+          ],
+          "texture": 2
+        },
+        "up": {
+          "uv": [
+            2,
+            1,
+            3,
+            2
+          ],
+          "texture": 2
+        }
+      },
+      "uuid": "a202fc0b-201c-5f3b-b4e1-76a229f22acf",
+      "type": "cube",
+      "box_uv": false
+    },
+    {
+      "name": "tape slot lip",
+      "from": [
+        8,
+        5.6,
+        4.6
+      ],
+      "to": [
+        12,
+        6,
+        5
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            3,
+            12,
+            7,
+            13
+          ],
+          "texture": 1
+        },
+        "east": {
+          "uv": [
+            3,
+            12,
+            7,
+            13
+          ],
+          "texture": 1
+        },
+        "west": {
+          "uv": [
+            3,
+            12,
+            7,
+            13
+          ],
+          "texture": 1
+        },
+        "up": {
+          "uv": [
+            3,
+            12,
+            7,
+            13
+          ],
+          "texture": 1
+        }
+      },
+      "uuid": "c130c29d-9de5-522a-a8ea-2cfdc1cef7fb",
+      "type": "cube",
+      "box_uv": false
+    },
+    {
+      "name": "status lamp",
+      "from": [
+        11.2,
+        4,
+        4.5
+      ],
+      "to": [
+        12.2,
+        5,
+        5
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            11,
+            10,
+            12,
+            11
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            11,
+            10,
+            12,
+            11
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            11,
+            10,
+            12,
+            11
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            11,
+            10,
+            12,
+            11
+          ],
+          "texture": 0
+        }
+      },
+      "uuid": "173402b6-37b8-50de-9d37-451f173a7f4c",
+      "type": "cube",
+      "box_uv": false
+    },
+    {
+      "name": "fin e1",
+      "from": [
+        14,
+        6,
+        7
+      ],
+      "to": [
+        14.5,
+        7,
+        12
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            2,
+            1,
+            7,
+            2
+          ],
+          "texture": 1
+        },
+        "east": {
+          "uv": [
+            2,
+            1,
+            7,
+            2
+          ],
+          "texture": 1
+        },
+        "south": {
+          "uv": [
+            2,
+            1,
+            7,
+            2
+          ],
+          "texture": 1
+        },
+        "up": {
+          "uv": [
+            2,
+            1,
+            7,
+            2
+          ],
+          "texture": 1
+        }
+      },
+      "uuid": "62d3e5ce-63f5-5f4a-baef-da4426968206",
+      "type": "cube",
+      "box_uv": false
+    },
+    {
+      "name": "fin e2",
+      "from": [
+        14,
+        8,
+        7
+      ],
+      "to": [
+        14.5,
+        9,
+        12
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            2,
+            1,
+            7,
+            2
+          ],
+          "texture": 1
+        },
+        "east": {
+          "uv": [
+            2,
+            1,
+            7,
+            2
+          ],
+          "texture": 1
+        },
+        "south": {
+          "uv": [
+            2,
+            1,
+            7,
+            2
+          ],
+          "texture": 1
+        },
+        "up": {
+          "uv": [
+            2,
+            1,
+            7,
+            2
+          ],
+          "texture": 1
+        }
+      },
+      "uuid": "bb9f33fc-f800-50a0-b0e8-6a14a1fd204b",
+      "type": "cube",
+      "box_uv": false
+    },
+    {
+      "name": "fin w1",
+      "from": [
+        1.5,
+        6,
+        7
+      ],
+      "to": [
+        2,
+        7,
+        12
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            2,
+            1,
+            7,
+            2
+          ],
+          "texture": 1
+        },
+        "south": {
+          "uv": [
+            2,
+            1,
+            7,
+            2
+          ],
+          "texture": 1
+        },
+        "west": {
+          "uv": [
+            2,
+            1,
+            7,
+            2
+          ],
+          "texture": 1
+        },
+        "up": {
+          "uv": [
+            2,
+            1,
+            7,
+            2
+          ],
+          "texture": 1
+        }
+      },
+      "uuid": "2629751c-08ee-57e8-b350-9ee3e93e85a7",
+      "type": "cube",
+      "box_uv": false
+    },
+    {
+      "name": "fin w2",
+      "from": [
+        1.5,
+        8,
+        7
+      ],
+      "to": [
+        2,
+        9,
+        12
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            2,
+            1,
+            7,
+            2
+          ],
+          "texture": 1
+        },
+        "south": {
+          "uv": [
+            2,
+            1,
+            7,
+            2
+          ],
+          "texture": 1
+        },
+        "west": {
+          "uv": [
+            2,
+            1,
+            7,
+            2
+          ],
+          "texture": 1
+        },
+        "up": {
+          "uv": [
+            2,
+            1,
+            7,
+            2
+          ],
+          "texture": 1
+        }
+      },
+      "uuid": "faa2f5d4-e93e-5406-828b-ce5ce26ce1e4",
+      "type": "cube",
+      "box_uv": false
+    },
+    {
+      "name": "rear connector",
+      "from": [
+        6,
+        5,
+        14
+      ],
+      "to": [
+        10,
+        8,
+        15
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            2,
+            10,
+            6,
+            11
+          ],
+          "texture": 1
+        },
+        "east": {
+          "uv": [
+            2,
+            10,
+            6,
+            11
+          ],
+          "texture": 1
+        },
+        "south": {
+          "uv": [
+            2,
+            10,
+            6,
+            11
+          ],
+          "texture": 1
+        },
+        "west": {
+          "uv": [
+            2,
+            10,
+            6,
+            11
+          ],
+          "texture": 1
+        },
+        "up": {
+          "uv": [
+            2,
+            10,
+            6,
+            11
+          ],
+          "texture": 1
+        }
+      },
+      "uuid": "a7ba658c-8236-5472-ab79-caf10f9c8b8e",
+      "type": "cube",
+      "box_uv": false
+    },
+    {
+      "name": "cable",
+      "from": [
+        7.5,
+        3.5,
+        14.5
+      ],
+      "to": [
+        8.5,
+        5,
+        15.5
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            2,
+            1,
+            3,
+            2
+          ],
+          "texture": 2
+        },
+        "east": {
+          "uv": [
+            2,
+            1,
+            3,
+            2
+          ],
+          "texture": 2
+        },
+        "south": {
+          "uv": [
+            2,
+            1,
+            3,
+            2
+          ],
+          "texture": 2
+        },
+        "west": {
+          "uv": [
+            2,
+            1,
+            3,
+            2
+          ],
+          "texture": 2
+        },
+        "up": {
+          "uv": [
+            2,
+            1,
+            3,
+            2
+          ],
+          "texture": 2
+        },
+        "down": {
+          "uv": [
+            2,
+            1,
+            3,
+            2
+          ],
+          "texture": 2
+        }
+      },
+      "uuid": "a749e7d9-6ef8-5a91-b724-5daa93d8e2e7",
+      "type": "cube",
+      "box_uv": false
+    }
+  ],
+  "outliner": [
+    "d2cb3b53-d2ed-50b3-885e-374e4fd30d1e",
+    "9c98989f-b4c6-5514-9a06-d025d1251a72",
+    "4c697bb7-f18e-5267-81bd-e9de1de4633f",
+    "88a58730-eb3a-5743-9115-1d53b87619e1",
+    "a202fc0b-201c-5f3b-b4e1-76a229f22acf",
+    "c130c29d-9de5-522a-a8ea-2cfdc1cef7fb",
+    "173402b6-37b8-50de-9d37-451f173a7f4c",
+    "62d3e5ce-63f5-5f4a-baef-da4426968206",
+    "bb9f33fc-f800-50a0-b0e8-6a14a1fd204b",
+    "2629751c-08ee-57e8-b350-9ee3e93e85a7",
+    "faa2f5d4-e93e-5406-828b-ce5ce26ce1e4",
+    "a7ba658c-8236-5472-ab79-caf10f9c8b8e",
+    "a749e7d9-6ef8-5a91-b724-5daa93d8e2e7"
+  ],
+  "textures": [
+    {
+      "path": "",
+      "name": "terminal_front.png",
+      "folder": "block",
+      "namespace": "nullspace",
+      "id": "0",
+      "width": 16,
+      "height": 16,
+      "uv_width": 16,
+      "uv_height": 16,
+      "uuid": "46a688f0-375f-5809-8ade-209b55cccf87",
+      "source": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAQNJREFUOI1j/PZi/38GCgALjMEpoEi0pi1zmhmcQ2JQDYBJTN3+Aa/mKZU22F0AAwKCPAwf3n9h2F7+nIGBgYFBO/YFw9XFEnA2AwMBAz68/8Lw6dNbButqNoiBcnIM1tUMcDY6wDDg0ZXzKDbC2AgXEDAA3UYY2+DvJQYHaQz9WLzw6BFWW6demcagrVPFUESKCxiQ/G3tNYNwGGga6DAsMtDBdCcewITMuX7hCoMyy1eGN2sWoLBz2o8w5LQfYVD+t5rh+oUruF1w6tQjhlOnHjEwMIgxMJx6xCB65wzDkVvfGExFPjEwMDAwZFfcYBBW4WYwM0N4hZHSvMBEhJpBbgAASWxdWQKPmloAAAAASUVORK5CYII="
+    },
+    {
+      "path": "",
+      "name": "terminal_side.png",
+      "folder": "block",
+      "namespace": "nullspace",
+      "id": "1",
+      "width": 16,
+      "height": 16,
+      "uv_width": 16,
+      "uv_height": 16,
+      "uuid": "be8c542a-b5b9-598c-b524-2edf8e7bb063",
+      "source": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAANVJREFUOI1jvHOk/z8DBYDx24v9/xkYGBg4BRRJ0vj9w30GBgYGBiYUUXZ5hrq0VIbvH+7jpJduOMewZU4zXAuKAd9fHmC4cP0hw941S3DSQQ6CKHaiuoAMQLIBz+5cwG0AuiQ2IKVigNsAdEliAP3DAB2gJKTu6TsYSjM9GL5/uM/AKaCIlZ6y/CaDJutpBueQGFQD9q5ZQpLNMANYfu2ZxsCvos8geucMAwMDA4OGiRoDv4o+w8kVq/HzOwogLujxUqUoM7HsfkCJdgYGlhefvlJkAACVsmqHzEhXpgAAAABJRU5ErkJggg=="
+    },
+    {
+      "path": "",
+      "name": "terminal_top.png",
+      "folder": "block",
+      "namespace": "nullspace",
+      "id": "2",
+      "width": 16,
+      "height": 16,
+      "uv_width": 16,
+      "uv_height": 16,
+      "uuid": "ab7961bf-5241-5620-b8e0-5ea157002a70",
+      "source": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAATtJREFUOI2lkj9Iw1AQh7+KiwZKoRQ6VqRLB3Fzca0t6OTiJFRwEJzFPyDi7lhKcRLRoSjUMRh0UNEllA6CJTQ0m4EihAevjnGoKSlJtdGbfu+Od+/3vbtYIZd1+UdMAtQO5mnpRqSLT0YPzfpu0NINFlYVtvdamE6S2cQHAKaTRK2mKG51AdhYlKztlyguX5HP9BvFCrmse7w0zdFtD1tI0nFl5Kv+ej4DmgUTXlFtaLzolwNdvz8N6OZjCbWawhZy+A8ATL3OW/P1R83ZDbV3h52TMvb5bhBh3LCFZH1OCSKE2R6lRyLYQoYi+PN/RvCmMDaCLeTwFNrPvyP4dTquRENQGxqfTifU/t31BeXKw+DsLdLAgbccU4mZ0AYrm4eUK/lAPlbIZV1vr6NER8Zpd0XfgWZFbwACgC+tFOCcwOQSgAAAAABJRU5ErkJggg=="
+    },
+    {
+      "path": "",
+      "name": "shell_wood.png",
+      "folder": "block",
+      "namespace": "nullspace",
+      "id": "3",
+      "width": 16,
+      "height": 16,
+      "uv_width": 16,
+      "uv_height": 16,
+      "uuid": "2763a845-7a21-58c0-83ca-4e7f23c23124",
+      "source": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAANVJREFUOI2lkk0OwiAUhD+FGqXRZeOiN/ACnsX7LxtjULBpi7rQkhZoo3E28H6YNwMsTsfDkz8gAcp98fPB2hoqbd4EAA5orQGg0oZyX3C7aqQQo1z96bFNC8AyZM5U7veb7S6aPKyPCPrp/Rrup3KeoHMuau6cI1N5VBvGnqD3GjanVCQVZConU/nItxQi8vzTHaQweQepYjiNhMXIwhD3q45IpRAjm7P/IIVQgRwGrTXJ5wwVJC1MNXyloLbG/20AtV5xvlwAaNwjzn1WT1Dp+aebwws+tm4QYpWsyQAAAABJRU5ErkJggg=="
+    }
+  ],
+  "display": {
+    "gui": {
+      "rotation": [
+        30,
+        225,
+        0
+      ],
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        0.65,
+        0.65,
+        0.65
+      ]
+    },
+    "ground": {
+      "translation": [
+        0,
+        3,
+        0
+      ],
+      "scale": [
+        0.25,
+        0.25,
+        0.25
+      ]
+    },
+    "fixed": {
+      "rotation": [
+        0,
+        180,
+        0
+      ],
+      "scale": [
+        0.5,
+        0.5,
+        0.5
+      ]
+    }
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:green_wool",
+    "minecraft:green_concrete",
+    "minecraft:moss_block",
+    "minecraft:green_terracotta",
+    "minecraft:oxidized_copper",
+    "minecraft:waxed_oxidized_copper",
+    "minecraft:lime_terracotta",
+    "minecraft:mossy_cobblestone"
+  ]
+}

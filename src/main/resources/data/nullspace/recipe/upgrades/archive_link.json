@@ -1,0 +1,8 @@
+{
+  "type": "tempad:upgrade",
+  "download_time": 80,
+  "item": {
+    "item": "nullspace:archive_link_upgrade"
+  },
+  "upgrade": "nullspace:archive_link"
+}

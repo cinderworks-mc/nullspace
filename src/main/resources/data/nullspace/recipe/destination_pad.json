@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "K": { "item": "minecraft:copper_ingot" },
+    "L": { "item": "tempad:location_card" },
+    "E": { "item": "minecraft:ender_pearl" },
+    "C": { "item": "tempad:chronon_cell" },
+    "I": { "item": "minecraft:iron_ingot" }
+  },
+  "pattern": [
+    "KLK",
+    "ECE",
+    "III"
+  ],
+  "result": { "id": "nullspace:destination_pad", "count": 1 }
+}

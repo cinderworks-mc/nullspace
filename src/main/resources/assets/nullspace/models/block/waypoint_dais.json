@@ -1,0 +1,24 @@
+{
+  "parent": "minecraft:block/block",
+  "render_type": "minecraft:solid",
+  "texture_size": [64, 64],
+  "textures": {
+    "0": "nullspace:block/waypoint_dais_model",
+    "particle": "nullspace:block/shell_copper"
+  },
+  "elements": [
+    {"name": "body", "from": [0, 0, 0], "to": [16, 16, 16], "faces": {
+        "north": {"uv": [0, 0, 4, 4], "texture": "#0", "cullface": "north"},
+        "east": {"uv": [0, 4, 4, 8], "texture": "#0", "cullface": "east"},
+        "south": {"uv": [8, 0, 12, 4], "texture": "#0", "cullface": "south"},
+        "west": {"uv": [4, 0, 8, 4], "texture": "#0", "cullface": "west"}
+      }},
+    {"name": "tier", "from": [0, 16, 0], "to": [16, 18, 16], "faces": {
+        "north": {"uv": [0, 8, 4, 8.5], "texture": "#0"},
+        "east": {"uv": [12, 4, 16, 4.5], "texture": "#0"},
+        "south": {"uv": [8, 4, 12, 4.5], "texture": "#0"},
+        "west": {"uv": [4, 4, 8, 4.5], "texture": "#0"},
+        "up": {"uv": [12, 0, 16, 4], "texture": "#0"}
+      }}
+  ]
+}

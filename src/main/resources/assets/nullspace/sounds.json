@@ -1,0 +1,65 @@
+{
+  "terminal_open": {
+    "subtitle": "subtitles.nullspace.terminal_open",
+    "sounds": [
+      {
+        "name": "nullspace:terminal_open",
+        "stream": false
+      }
+    ]
+  },
+  "terminal_confirm": {
+    "subtitle": "subtitles.nullspace.terminal_confirm",
+    "sounds": [
+      {
+        "name": "nullspace:terminal_confirm",
+        "stream": false
+      }
+    ]
+  },
+  "terminal_deny": {
+    "subtitle": "subtitles.nullspace.terminal_deny",
+    "sounds": [
+      {
+        "name": "nullspace:terminal_deny",
+        "stream": false
+      }
+    ]
+  },
+  "exit_open": {
+    "subtitle": "subtitles.nullspace.exit_open",
+    "sounds": [
+      {
+        "name": "nullspace:exit_open",
+        "stream": false
+      }
+    ]
+  },
+  "applicator": {
+    "subtitle": "subtitles.nullspace.applicator",
+    "sounds": [
+      {
+        "name": "nullspace:applicator",
+        "stream": false
+      }
+    ]
+  },
+  "room_change": {
+    "subtitle": "subtitles.nullspace.room_change",
+    "sounds": [
+      {
+        "name": "nullspace:room_change",
+        "stream": false
+      }
+    ]
+  },
+  "anchor_install": {
+    "subtitle": "subtitles.nullspace.anchor_install",
+    "sounds": [
+      {
+        "name": "nullspace:anchor_install",
+        "stream": false
+      }
+    ]
+  }
+}

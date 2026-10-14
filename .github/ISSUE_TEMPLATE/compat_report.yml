@@ -1,0 +1,57 @@
+name: compatibility report
+description: tell us how nullspace behaves with another mod (it works, it breaks, or something is odd).
+title: "[compat] <mod name> <version>"
+labels: ["compat"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        check the open and closed issues for the mod first. a report that says "works" is as useful as one that says "breaks".
+  - type: input
+    id: modname
+    attributes:
+      label: mod name and link
+      placeholder: "sophisticated backpacks, https://modrinth.com/mod/sophisticated-backpacks"
+    validations:
+      required: true
+  - type: input
+    id: modversion
+    attributes:
+      label: mod version (and loader)
+      placeholder: "3.26.9.2195, neoforge 1.21.1"
+    validations:
+      required: true
+  - type: input
+    id: versions
+    attributes:
+      label: minecraft / neoforge / tempad / nullspace versions
+      placeholder: "1.21.1 / 21.1.252 / 3.0.4 / 0.1.0"
+    validations:
+      required: true
+  - type: textarea
+    id: tested
+    attributes:
+      label: what did you test?
+      description: inside an archive, as owner or as a guest? which permissions? single player or server?
+      placeholder: |
+        - placed the mod's chest in a guest-built room (storage + build)
+        - enlarged the room from 9 to 13 with items inside
+    validations:
+      required: true
+  - type: dropdown
+    id: result
+    attributes:
+      label: result
+      options:
+        - works as expected
+        - works with a limitation (describe below)
+        - breaks something in nullspace
+        - nullspace breaks something in the other mod
+        - crash or world problem
+    validations:
+      required: true
+  - type: textarea
+    id: details
+    attributes:
+      label: details
+      description: what exactly happened, how it differs from what you expected, and what you tried. attach `latest.log` for anything other than works, after removing your player name, ip address and the user name in file paths.

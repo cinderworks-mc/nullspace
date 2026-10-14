@@ -1,0 +1,43 @@
+name: feature request
+description: an idea for nullspace, or a change to how something already works.
+title: "[feature] "
+labels: ["feature"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: what are you trying to do?
+      description: describe the situation first, not the solution.
+    validations:
+      required: true
+  - type: textarea
+    id: idea
+    attributes:
+      label: what would you like to happen?
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: alternatives and workarounds
+      description: what do you do today, and what did you consider?
+  - type: dropdown
+    id: area
+    attributes:
+      label: area
+      multiple: true
+      options:
+        - archive rooms and expansion
+        - guests and permissions
+        - terminal gui
+        - tempad integration (cards, link, circle, gateways)
+        - waypoint hall and destination pads
+        - windows, palette and art
+        - server administration and config
+        - compatibility with another mod
+        - other
+  - type: textarea
+    id: context
+    attributes:
+      label: anything else
+      description: mods involved, screenshots, links. nullspace stays an add-on to tempad, so ideas that need tempad's own assets or changes to tempad's code cannot be done here.

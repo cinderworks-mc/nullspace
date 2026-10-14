@@ -1,0 +1,78 @@
+{
+  "display_name": "Vanilla Classic Workshop",
+  "description": "Crafting table, furnace, two barrels, a bed and warm lanterns.",
+  "requires_mods": [],
+  "blocks": [
+    {
+      "x": 1,
+      "y": 0,
+      "z": -4,
+      "block": "minecraft:crafting_table"
+    },
+    {
+      "x": 2,
+      "y": 0,
+      "z": -4,
+      "block": "minecraft:furnace",
+      "properties": {
+        "facing": "south"
+      }
+    },
+    {
+      "x": 4,
+      "y": 0,
+      "z": -1,
+      "block": "minecraft:barrel",
+      "properties": {
+        "facing": "west"
+      }
+    },
+    {
+      "x": 4,
+      "y": 0,
+      "z": 1,
+      "block": "minecraft:barrel",
+      "properties": {
+        "facing": "west"
+      }
+    },
+    {
+      "x": -4,
+      "y": 0,
+      "z": 1,
+      "block": "minecraft:red_bed",
+      "properties": {
+        "facing": "north",
+        "part": "foot"
+      }
+    },
+    {
+      "x": -4,
+      "y": 0,
+      "z": 0,
+      "block": "minecraft:red_bed",
+      "properties": {
+        "facing": "north",
+        "part": "head"
+      }
+    },
+    {
+      "x": -2,
+      "y": 5,
+      "z": -2,
+      "block": "minecraft:lantern",
+      "properties": {
+        "hanging": "true"
+      }
+    },
+    {
+      "x": 2,
+      "y": 5,
+      "z": 2,
+      "block": "minecraft:lantern",
+      "properties": {
+        "hanging": "true"
+      }
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "nullspace:block/archive_terminal"
+    },
+    "facing=east": {
+      "model": "nullspace:block/archive_terminal",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "nullspace:block/archive_terminal",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "nullspace:block/archive_terminal",
+      "y": 270
+    }
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:glowstone",
+    "minecraft:shroomlight",
+    "minecraft:honey_block",
+    "minecraft:orange_concrete",
+    "minecraft:yellow_concrete",
+    "minecraft:sea_lantern",
+    "minecraft:lantern"
+  ]
+}

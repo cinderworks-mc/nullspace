@@ -1,0 +1,243 @@
+{
+ "meta": {
+  "format_version": "4.10",
+  "model_format": "java_block",
+  "box_uv": false
+ },
+ "name": "Archive Exit",
+ "resolution": {
+  "width": 64,
+  "height": 64
+ },
+ "elements": [
+  {
+   "name": "threshold",
+   "from": [
+    0,
+    0,
+    8
+   ],
+   "to": [
+    16,
+    2,
+    16
+   ],
+   "faces": {
+    "north": {
+     "uv": [
+      16,
+      14,
+      32,
+      16
+     ],
+     "texture": 0
+    },
+    "up": {
+     "uv": [
+      0,
+      14,
+      16,
+      22
+     ],
+     "texture": 0
+    },
+    "east": {
+     "uv": [
+      48,
+      14,
+      56,
+      16
+     ],
+     "texture": 0
+    },
+    "west": {
+     "uv": [
+      56,
+      14,
+      64,
+      16
+     ],
+     "texture": 0
+    },
+    "south": {
+     "uv": [
+      32,
+      14,
+      48,
+      16
+     ],
+     "texture": 0
+    }
+   },
+   "uuid": "268a24fe-0890-570b-ba6b-44441cb847af",
+   "type": "cube",
+   "box_uv": false
+  },
+  {
+   "name": "jamb east",
+   "from": [
+    14,
+    2,
+    10
+   ],
+   "to": [
+    16,
+    16,
+    16
+   ],
+   "faces": {
+    "north": {
+     "uv": [
+      48,
+      0,
+      50,
+      14
+     ],
+     "texture": 0
+    },
+    "east": {
+     "uv": [
+      24,
+      0,
+      30,
+      14
+     ],
+     "texture": 0
+    },
+    "west": {
+     "uv": [
+      30,
+      0,
+      36,
+      14
+     ],
+     "texture": 0
+    },
+    "south": {
+     "uv": [
+      50,
+      0,
+      52,
+      14
+     ],
+     "texture": 0
+    }
+   },
+   "uuid": "88c3d9ae-4905-5452-b98b-285363d0be26",
+   "type": "cube",
+   "box_uv": false
+  },
+  {
+   "name": "jamb west",
+   "from": [
+    0,
+    2,
+    10
+   ],
+   "to": [
+    2,
+    16,
+    16
+   ],
+   "faces": {
+    "north": {
+     "uv": [
+      52,
+      0,
+      54,
+      14
+     ],
+     "texture": 0
+    },
+    "west": {
+     "uv": [
+      42,
+      0,
+      48,
+      14
+     ],
+     "texture": 0
+    },
+    "east": {
+     "uv": [
+      36,
+      0,
+      42,
+      14
+     ],
+     "texture": 0
+    },
+    "south": {
+     "uv": [
+      54,
+      0,
+      56,
+      14
+     ],
+     "texture": 0
+    }
+   },
+   "uuid": "ccd3da61-3932-593c-87f1-bff7db30d5ef",
+   "type": "cube",
+   "box_uv": false
+  },
+  {
+   "name": "door leaf",
+   "from": [
+    2,
+    2,
+    14
+   ],
+   "to": [
+    14,
+    16,
+    16
+   ],
+   "faces": {
+    "north": {
+     "uv": [
+      0,
+      0,
+      12,
+      14
+     ],
+     "texture": 0
+    },
+    "south": {
+     "uv": [
+      12,
+      0,
+      24,
+      14
+     ],
+     "texture": 0
+    }
+   },
+   "uuid": "67d9b904-9215-5581-83ea-08ab933a0439",
+   "type": "cube",
+   "box_uv": false
+  }
+ ],
+ "outliner": [
+  "268a24fe-0890-570b-ba6b-44441cb847af",
+  "88c3d9ae-4905-5452-b98b-285363d0be26",
+  "ccd3da61-3932-593c-87f1-bff7db30d5ef",
+  "67d9b904-9215-5581-83ea-08ab933a0439"
+ ],
+ "textures": [
+  {
+   "path": "",
+   "name": "archive_exit_model.png",
+   "folder": "item",
+   "namespace": "nullspace",
+   "id": "0",
+   "width": 64,
+   "height": 64,
+   "uv_width": 64,
+   "uv_height": 64,
+   "uuid": "9654b2d7-89d1-5056-b30a-cbd03254af38",
+   "source": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAAAXNSR0IArs4c6QAAAiZJREFUeJzt2E9L22AcB/BvbQ6uo9BagpYiWioiQ9ihk+0i9DKkB+/iG/C+297AfAv1vMsunjw48VLoZWPrxmCIFGWUEdshLkKx8zLcIX9M0ycPiSGbyb6fS/rkefL0eX7p8yS/pp5Un968ezRE+nEBqFUBAGi2jaOj/PvLBZ4dZQAAg8EAfmSzWWzO98fOl+YyWH6+hPOTPn58u4TWHQIANO3aqC9N2u2myzmoCzP4enhst3Pa2N5Cq/HartvY3sKblzt2/Yvdbko2RsXXTEIozWXGzk2Xc4H78bpGP/0wUu4c7AXqdyLwSBIm9gHIV1ZGyotr64Guj30Awi6ByPcA0cYFAOrCTKB+nJul0/KdR2aI/SaYr6wAh8d2eXFtHZ+aO8K2Iv/9Eoh9AMISB6BWvX0JuufCPgVivwlG8xSYXTWO31uBOhOJehMMa3wJWJN3f04oBcBtIiSa8OwqUAPSaANHv3wnQjCTJq8lAMfP2kqCLO4yJEsAZpJkX9M8E17vJXXWeXXjXkd+Wdmcm9YdCn/6onZhyb7HWjaiMVqUzsGetIGMbAJ+JhfkToUhG4vSaBVx8fPBnTrW9St8bL+X5tv3nfRFqDCVQ2HKIw/Xr6Ia01/lGQDnxL2CkARj7wH7xXPzqVAerTD/Fqv31MTcfYgCUO+pQA/A28+umgkAKgAgn3+YmCAoJ6favx4DERERERERERERERERERERERERERFRBP4AU23MTXTf5pIAAAAASUVORK5CYII="
+  }
+ ],
+ "display": {}
+}

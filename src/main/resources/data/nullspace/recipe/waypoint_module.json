@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "P": { "item": "minecraft:ender_pearl" },
+    "L": { "item": "tempad:location_card" },
+    "T": { "item": "tempad:time_steel" },
+    "C": { "item": "tempad:chronon_cell" },
+    "A": { "item": "minecraft:amethyst_shard" }
+  },
+  "pattern": [
+    "PLP",
+    "TCT",
+    " A "
+  ],
+  "result": { "id": "nullspace:waypoint_module", "count": 1 }
+}

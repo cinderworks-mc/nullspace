@@ -1,0 +1,151 @@
+{
+ "meta": {
+  "format_version": "4.10",
+  "model_format": "java_block",
+  "box_uv": false
+ },
+ "name": "Waypoint Dais",
+ "resolution": {
+  "width": 64,
+  "height": 64
+ },
+ "elements": [
+  {
+   "name": "body",
+   "from": [
+    0,
+    0,
+    0
+   ],
+   "to": [
+    16,
+    16,
+    16
+   ],
+   "faces": {
+    "north": {
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ],
+     "texture": 0
+    },
+    "east": {
+     "uv": [
+      0,
+      16,
+      16,
+      32
+     ],
+     "texture": 0
+    },
+    "south": {
+     "uv": [
+      32,
+      0,
+      48,
+      16
+     ],
+     "texture": 0
+    },
+    "west": {
+     "uv": [
+      16,
+      0,
+      32,
+      16
+     ],
+     "texture": 0
+    }
+   },
+   "uuid": "61f204e6-75a9-5906-827d-0cdcb5cc9191",
+   "type": "cube",
+   "box_uv": false
+  },
+  {
+   "name": "tier",
+   "from": [
+    0,
+    16,
+    0
+   ],
+   "to": [
+    16,
+    18,
+    16
+   ],
+   "faces": {
+    "north": {
+     "uv": [
+      0,
+      32,
+      16,
+      34
+     ],
+     "texture": 0
+    },
+    "east": {
+     "uv": [
+      48,
+      16,
+      64,
+      18
+     ],
+     "texture": 0
+    },
+    "south": {
+     "uv": [
+      32,
+      16,
+      48,
+      18
+     ],
+     "texture": 0
+    },
+    "west": {
+     "uv": [
+      16,
+      16,
+      32,
+      18
+     ],
+     "texture": 0
+    },
+    "up": {
+     "uv": [
+      48,
+      0,
+      64,
+      16
+     ],
+     "texture": 0
+    }
+   },
+   "uuid": "c10f792e-042d-54bf-b290-8289a1b18345",
+   "type": "cube",
+   "box_uv": false
+  }
+ ],
+ "outliner": [
+  "61f204e6-75a9-5906-827d-0cdcb5cc9191",
+  "c10f792e-042d-54bf-b290-8289a1b18345"
+ ],
+ "textures": [
+  {
+   "path": "",
+   "name": "waypoint_dais_model.png",
+   "folder": "item",
+   "namespace": "nullspace",
+   "id": "0",
+   "width": 64,
+   "height": 64,
+   "uv_width": 64,
+   "uv_height": 64,
+   "uuid": "76ccd1f2-3b48-52dc-922d-f88278cc2971",
+   "source": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAAAXNSR0IArs4c6QAAAc9JREFUeJzt2LFuwjAQBuAL8gQDUx+AoVbGDJEYyl6pM6hV5vQJWpZ2pgt9gzIi1KrMPAEdkBgYUTr0FWAoK10ICgFM4iQcof83IXFWzhfbsW3Muo0l5djtyyRRe0FENB17Wo2H3oJcx2Jt//FkxWozHXtk2nL9u6D15BNUrrcjxZm23IgVaSZh2lL7bSY17zfpvvVF1UpJGec61jr24foi3QL4w4urCNVKaT2l/GEe1ulNyHUsenu+ymYKqB5+LHGer1UA05Y09BY0+vnd+T/XCNChVYA8dfCQnQWIMoRqsnhwwTkVqhe2VQDORSyquGtM8LsfVggHnnrn4wj3ZVfhNj6Deel81DyDHd7XRtAZvXnXsajTU58NXGdz6yxotTmoyWK22QWYtjyYaFzlepvm/eZWB1WxFFwDht4i1YRU/NG2bx+hw9/exo01Xm8uc30cTjpyjaT3AcG1o3rXoNH7pzJeFcPR3ph1G0v/FBW3msecNlkRtDpF6Q6lx8G3kXZSx1SgFOZRnp3NjZAuFIA7AW4oAHcC3FAA7gS4oQDcCXBDAbgT4CbSvpnJGxE8CGmdxwdZppe9xDdCeT8OAwAAAAAAAAAAAAAAAADAf/AHvRq3QGhq9bAAAAAASUVORK5CYII="
+  }
+ ],
+ "display": {}
+}

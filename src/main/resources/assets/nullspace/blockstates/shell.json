@@ -1,0 +1,22 @@
+{
+  "variants": {
+    "finish=ivory": {
+      "model": "nullspace:block/shell_ivory"
+    },
+    "finish=green": {
+      "model": "nullspace:block/shell_green"
+    },
+    "finish=charcoal": {
+      "model": "nullspace:block/shell_charcoal"
+    },
+    "finish=wood": {
+      "model": "nullspace:block/shell_wood"
+    },
+    "finish=copper": {
+      "model": "nullspace:block/shell_copper"
+    },
+    "finish=amber": {
+      "model": "nullspace:block/shell_amber"
+    }
+  }
+}

@@ -1,0 +1,274 @@
+{
+  "display_name": "Supplementaries Study",
+  "description": "A curio study: a map desk with a globe, safes with a candle holder and jar, bookshelves with item shelves, planters, a sconce and a bed. Needs Supplementaries 3.9.x (and Moonlight Lib).",
+  "requires_mods": [
+    "supplementaries"
+  ],
+  "blocks": [
+    {
+      "x": 3,
+      "y": 0,
+      "z": -3,
+      "block": "minecraft:crafting_table"
+    },
+    {
+      "x": 4,
+      "y": 0,
+      "z": -3,
+      "block": "minecraft:cartography_table"
+    },
+    {
+      "x": 4,
+      "y": 1,
+      "z": -3,
+      "block": "supplementaries:globe",
+      "fallback": "minecraft:flower_pot",
+      "properties": {
+        "facing": "west"
+      }
+    },
+    {
+      "x": 2,
+      "y": 0,
+      "z": -3,
+      "block": "minecraft:furnace",
+      "properties": {
+        "facing": "south"
+      }
+    },
+    {
+      "x": 4,
+      "y": 0,
+      "z": -1,
+      "block": "supplementaries:safe",
+      "fallback": "minecraft:chest",
+      "properties": {
+        "facing": "west"
+      },
+      "fallbackProperties": {
+        "facing": "west"
+      }
+    },
+    {
+      "x": 4,
+      "y": 0,
+      "z": 0,
+      "block": "supplementaries:safe",
+      "fallback": "minecraft:chest",
+      "properties": {
+        "facing": "west"
+      },
+      "fallbackProperties": {
+        "facing": "west"
+      }
+    },
+    {
+      "x": 4,
+      "y": 1,
+      "z": -1,
+      "block": "supplementaries:candle_holder",
+      "fallback": "minecraft:candle",
+      "properties": {
+        "candles": "3",
+        "lit": "true",
+        "face": "floor"
+      },
+      "fallbackProperties": {
+        "candles": "3",
+        "lit": "true"
+      }
+    },
+    {
+      "x": 4,
+      "y": 1,
+      "z": 0,
+      "block": "supplementaries:jar",
+      "fallback": "minecraft:glass"
+    },
+    {
+      "x": 4,
+      "y": 0,
+      "z": 1,
+      "block": "supplementaries:sack",
+      "fallback": "minecraft:brown_wool"
+    },
+    {
+      "x": 4,
+      "y": 0,
+      "z": 2,
+      "block": "supplementaries:urn",
+      "fallback": "minecraft:flower_pot"
+    },
+    {
+      "x": -4,
+      "y": 0,
+      "z": -3,
+      "block": "minecraft:bookshelf"
+    },
+    {
+      "x": -4,
+      "y": 0,
+      "z": -2,
+      "block": "minecraft:bookshelf"
+    },
+    {
+      "x": -4,
+      "y": 1,
+      "z": -3,
+      "block": "minecraft:bookshelf"
+    },
+    {
+      "x": -4,
+      "y": 1,
+      "z": -2,
+      "block": "minecraft:bookshelf"
+    },
+    {
+      "x": -4,
+      "y": 2,
+      "z": -3,
+      "block": "minecraft:bookshelf"
+    },
+    {
+      "x": -4,
+      "y": 2,
+      "z": -2,
+      "block": "minecraft:bookshelf"
+    },
+    {
+      "x": -3,
+      "y": 1,
+      "z": -3,
+      "block": "supplementaries:item_shelf",
+      "fallback": "minecraft:oak_pressure_plate",
+      "properties": {
+        "facing": "east"
+      }
+    },
+    {
+      "x": -3,
+      "y": 1,
+      "z": -2,
+      "block": "supplementaries:item_shelf",
+      "fallback": "minecraft:oak_pressure_plate",
+      "properties": {
+        "facing": "east"
+      }
+    },
+    {
+      "x": -4,
+      "y": 0,
+      "z": 0,
+      "block": "supplementaries:planter",
+      "fallback": "minecraft:coarse_dirt",
+      "properties": {
+        "extended": "true"
+      }
+    },
+    {
+      "x": -4,
+      "y": 1,
+      "z": 0,
+      "block": "minecraft:flowering_azalea"
+    },
+    {
+      "x": -4,
+      "y": 0,
+      "z": 1,
+      "block": "supplementaries:planter",
+      "fallback": "minecraft:coarse_dirt",
+      "properties": {
+        "extended": "true"
+      }
+    },
+    {
+      "x": -4,
+      "y": 1,
+      "z": 1,
+      "block": "minecraft:fern"
+    },
+    {
+      "x": -2,
+      "y": 0,
+      "z": 0,
+      "block": "supplementaries:pedestal",
+      "fallback": "minecraft:stone_brick_wall"
+    },
+    {
+      "x": -2,
+      "y": 1,
+      "z": 0,
+      "block": "supplementaries:hourglass",
+      "fallback": "minecraft:flower_pot",
+      "properties": {
+        "facing": "up"
+      }
+    },
+    {
+      "x": -3,
+      "y": 0,
+      "z": 2,
+      "block": "minecraft:spruce_stairs",
+      "properties": {
+        "facing": "south"
+      }
+    },
+    {
+      "x": -2,
+      "y": 0,
+      "z": 2,
+      "block": "minecraft:spruce_stairs",
+      "properties": {
+        "facing": "south"
+      }
+    },
+    {
+      "x": -3,
+      "y": 0,
+      "z": 3,
+      "block": "supplementaries:sconce",
+      "fallback": "minecraft:torch",
+      "properties": {
+        "lit": "true"
+      }
+    },
+    {
+      "x": 3,
+      "y": 0,
+      "z": 3,
+      "block": "minecraft:red_bed",
+      "properties": {
+        "facing": "east",
+        "part": "foot"
+      }
+    },
+    {
+      "x": 4,
+      "y": 0,
+      "z": 3,
+      "block": "minecraft:red_bed",
+      "properties": {
+        "facing": "east",
+        "part": "head"
+      }
+    },
+    {
+      "x": -2,
+      "y": 5,
+      "z": -2,
+      "block": "minecraft:lantern",
+      "properties": {
+        "hanging": "true"
+      }
+    },
+    {
+      "x": 2,
+      "y": 5,
+      "z": 2,
+      "block": "minecraft:lantern",
+      "properties": {
+        "hanging": "true"
+      }
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:copper_block",
+    "minecraft:cut_copper",
+    "minecraft:waxed_copper_block",
+    "minecraft:exposed_copper",
+    "minecraft:orange_terracotta",
+    "minecraft:terracotta",
+    "minecraft:bricks",
+    "minecraft:red_terracotta"
+  ]
+}

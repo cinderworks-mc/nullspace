@@ -1,0 +1,36 @@
+GPL Palette
+Name: Nullspace Workshop v2 (Tempad-family pass)
+Columns: 8
+# one char per colour in the art palette
+ 42  31  34	outline_ink
+246 232 191	cream_hi
+220 196 143	cream
+179 148  99	cream_lo
+125  94  69	cream_shadow
+154  98  72	wood_hi
+107  63  51	wood
+ 71  42  37	wood_dark
+240 164  85	copper_hi
+200 112  47	copper
+140  74  37	copper_dark
+228 228 224	metal_hi
+164 168 174	metal
+111 115 124	metal_mid
+ 72  75  83	metal_dark
+ 88 240 110	green_glow
+ 31 143  63	green_glow_dark
+240  74  60	red_glow
+160  40  31	red_glow_dark
+255 194  58	amber
+255 243 168	glow_white
+255 127  42	orange_hot
+163 194 154	sage
+102 137 106	null_green
+ 61  90  71	pine
+ 58  61  64	charcoal
+ 88  92  95	charcoal_hi
+ 42  61  49	pine_dark
+ 18  32  46	space
+ 35  55  77	space_haze
+127 162 189	star
+217 232 242	star_bright

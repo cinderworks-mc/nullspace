@@ -1,0 +1,92 @@
+{
+  "display_name": "Sophisticated Storage Workshop",
+  "description": "Vanilla basics with basic wooden Sophisticated Storage barrels and a chest. Needs Sophisticated Storage 1.6.x.",
+  "requires_mods": [
+    "sophisticatedstorage"
+  ],
+  "blocks": [
+    {
+      "x": 1,
+      "y": 0,
+      "z": -4,
+      "block": "minecraft:crafting_table"
+    },
+    {
+      "x": 2,
+      "y": 0,
+      "z": -4,
+      "block": "minecraft:furnace",
+      "properties": {
+        "facing": "south"
+      }
+    },
+    {
+      "x": 4,
+      "y": 0,
+      "z": -1,
+      "block": "sophisticatedstorage:barrel",
+      "fallback": "minecraft:barrel",
+      "properties": {
+        "facing": "west"
+      }
+    },
+    {
+      "x": 4,
+      "y": 0,
+      "z": 1,
+      "block": "sophisticatedstorage:barrel",
+      "fallback": "minecraft:barrel",
+      "properties": {
+        "facing": "west"
+      }
+    },
+    {
+      "x": -4,
+      "y": 0,
+      "z": 1,
+      "block": "minecraft:red_bed",
+      "properties": {
+        "facing": "north",
+        "part": "foot"
+      }
+    },
+    {
+      "x": -4,
+      "y": 0,
+      "z": 0,
+      "block": "minecraft:red_bed",
+      "properties": {
+        "facing": "north",
+        "part": "head"
+      }
+    },
+    {
+      "x": -2,
+      "y": 5,
+      "z": -2,
+      "block": "minecraft:lantern",
+      "properties": {
+        "hanging": "true"
+      }
+    },
+    {
+      "x": 2,
+      "y": 5,
+      "z": 2,
+      "block": "minecraft:lantern",
+      "properties": {
+        "hanging": "true"
+      }
+    },
+    {
+      "x": 4,
+      "y": 0,
+      "z": 3,
+      "block": "sophisticatedstorage:chest",
+      "fallback": "minecraft:chest",
+      "properties": {
+        "facing": "west"
+      }
+    }
+  ]
+}

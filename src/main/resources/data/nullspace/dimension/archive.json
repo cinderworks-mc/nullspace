@@ -1,0 +1,12 @@
+{
+  "type": "nullspace:archive",
+  "generator": {
+    "type": "minecraft:flat",
+    "settings": {
+      "layers": [],
+      "lakes": false,
+      "features": false,
+      "biome": "minecraft:the_void"
+    }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "parent": "minecraft:block/block",
+  "render_type": "minecraft:cutout",
+  "ambientocclusion": false,
+  "textures": {
+    "frame": "nullspace:block/shell_window",
+    "particle": "nullspace:block/shell_window"
+  },
+  "elements": []
+}

@@ -1,0 +1,108 @@
+name: bug report
+description: something in nullspace does not work, crashes, loses items or lets someone through a wall.
+title: "[bug] "
+labels: ["bug", "needs-repro"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        thanks for the report. a bug with a short list of steps and the log file is usually fixed fast.
+
+        **privacy:** `latest.log` and crash reports contain your player name, your ip address when you were on a server, and your computer's user name in file paths. open the file and replace anything you do not want to share before attaching it. for a security problem, do **not** use this form: see `SECURITY.md`.
+  - type: input
+    id: minecraft
+    attributes:
+      label: minecraft version
+      placeholder: "1.21.1"
+    validations:
+      required: true
+  - type: input
+    id: neoforge
+    attributes:
+      label: neoforge version
+      placeholder: "21.1.252"
+    validations:
+      required: true
+  - type: input
+    id: tempad
+    attributes:
+      label: tempad version
+      placeholder: "3.0.4"
+    validations:
+      required: true
+  - type: input
+    id: nullspace
+    attributes:
+      label: nullspace version
+      description: the jar file name or the version shown in the mod list.
+      placeholder: "0.1.0"
+    validations:
+      required: true
+  - type: dropdown
+    id: side
+    attributes:
+      label: where did it happen?
+      options:
+        - single player
+        - multiplayer, as a client
+        - dedicated server (server log)
+        - i am not sure
+    validations:
+      required: true
+  - type: textarea
+    id: mods
+    attributes:
+      label: other mods and their versions
+      description: the full list is best (paste the mod list or the output of `/neoforge mods`). say which ones touch storage, claims, teams, graves, teleporting or carry on.
+      placeholder: "create 6.0.10, sophisticated storage 1.6.2, ftb chunks 2101.1.22, ..."
+    validations:
+      required: true
+  - type: dropdown
+    id: without_mods
+    attributes:
+      label: does it happen without other mods?
+      description: only neoforge, tempad (with its required libraries) and nullspace.
+      options:
+        - yes, it still happens with only tempad and nullspace
+        - no, it only happens with other mods installed
+        - i have not tried
+    validations:
+      required: true
+  - type: textarea
+    id: what
+    attributes:
+      label: what happened?
+      description: include the exact message text if there was one. screenshots help.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: what did you expect to happen?
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: steps to reproduce
+      description: numbered steps from a new or existing archive. mention the archive's size, the guest's permissions and any config you changed (`config/nullspace-server.toml`).
+      placeholder: |
+        1. claim an archive with the create preset
+        2. invite a guest with enter only
+        3. ...
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: logs and crash report
+      description: drag `logs/latest.log` (or `logs/debug.log`) and any file from `crash-reports/` into this box, or paste a link. please read the privacy note above first.
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: checklist
+      options:
+        - label: i looked at the existing issues and did not find this one.
+          required: true
+        - label: I removed private information from the logs I attached.
+          required: false

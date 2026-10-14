@@ -1,0 +1,16 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:oak_planks",
+    "minecraft:spruce_planks",
+    "minecraft:dark_oak_planks",
+    "minecraft:acacia_planks",
+    "minecraft:jungle_planks",
+    "minecraft:oak_log",
+    "minecraft:spruce_log",
+    "minecraft:dark_oak_log",
+    "minecraft:bookshelf",
+    "minecraft:barrel",
+    "minecraft:crafting_table"
+  ]
+}

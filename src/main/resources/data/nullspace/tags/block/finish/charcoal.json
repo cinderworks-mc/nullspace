@@ -1,0 +1,14 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:deepslate",
+    "minecraft:polished_deepslate",
+    "minecraft:deepslate_tiles",
+    "minecraft:blackstone",
+    "minecraft:polished_blackstone",
+    "minecraft:black_concrete",
+    "minecraft:black_wool",
+    "minecraft:coal_block",
+    "minecraft:tuff_bricks"
+  ]
+}

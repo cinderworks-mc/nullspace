@@ -1,0 +1,106 @@
+{
+  "display_name": "Create Workshop",
+  "description": "Vanilla basics plus a millstone, depot, cogwheel, shaft and andesite casing. Needs Create 6.0.x.",
+  "requires_mods": [
+    "create"
+  ],
+  "blocks": [
+    {
+      "x": 1,
+      "y": 0,
+      "z": -4,
+      "block": "minecraft:crafting_table"
+    },
+    {
+      "x": 2,
+      "y": 0,
+      "z": -4,
+      "block": "minecraft:furnace",
+      "properties": {
+        "facing": "south"
+      }
+    },
+    {
+      "x": -4,
+      "y": 0,
+      "z": 1,
+      "block": "minecraft:red_bed",
+      "properties": {
+        "facing": "north",
+        "part": "foot"
+      }
+    },
+    {
+      "x": -4,
+      "y": 0,
+      "z": 0,
+      "block": "minecraft:red_bed",
+      "properties": {
+        "facing": "north",
+        "part": "head"
+      }
+    },
+    {
+      "x": -2,
+      "y": 5,
+      "z": -2,
+      "block": "minecraft:lantern",
+      "properties": {
+        "hanging": "true"
+      }
+    },
+    {
+      "x": 2,
+      "y": 5,
+      "z": 2,
+      "block": "minecraft:lantern",
+      "properties": {
+        "hanging": "true"
+      }
+    },
+    {
+      "x": 4,
+      "y": 0,
+      "z": -1,
+      "block": "minecraft:barrel",
+      "properties": {
+        "facing": "west"
+      }
+    },
+    {
+      "x": 3,
+      "y": 0,
+      "z": -4,
+      "block": "create:millstone",
+      "fallback": "minecraft:grindstone"
+    },
+    {
+      "x": -3,
+      "y": 0,
+      "z": -4,
+      "block": "create:depot",
+      "fallback": "minecraft:smooth_stone_slab"
+    },
+    {
+      "x": -4,
+      "y": 0,
+      "z": -3,
+      "block": "create:cogwheel",
+      "fallback": "minecraft:iron_block"
+    },
+    {
+      "x": -4,
+      "y": 0,
+      "z": -2,
+      "block": "create:shaft",
+      "fallback": "minecraft:iron_bars"
+    },
+    {
+      "x": 4,
+      "y": 0,
+      "z": 3,
+      "block": "create:andesite_casing",
+      "fallback": "minecraft:stone"
+    }
+  ]
+}
