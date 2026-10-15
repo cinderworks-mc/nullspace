@@ -29,4 +29,7 @@ jobs:
       - name: publish
         env:
           GH_TOKEN: ${{ github.token }}
-        run: gh release create "$GITHUB_REF_NAME" "$JAR" "$JAR.sha256" --title "$GITHUB_REF_NAME" --generate-notes
+        run: |
+          flags=""
+          case "$GITHUB_REF_NAME" in *-*) flags="--prerelease" ;; esac
+          gh release create "$GITHUB_REF_NAME" "$JAR" "$JAR.sha256" --title "$GITHUB_REF_NAME" --generate-notes $flags
