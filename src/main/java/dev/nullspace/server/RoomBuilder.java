@@ -247,7 +247,26 @@ public final class RoomBuilder {
         buildShell(level, archive, added);
         placeTunnelWalls(level, archive, source, added, direction, false);
         clearStructural(level, tunnelInterior(archive, source, added, direction));
+        replaceDoorwayWindows(level, archive, source, direction);
         settleWindows(level, source.shell(archive.allocation()));
+    }
+
+    // the starter window's top row sits in the doorway frame and would show through the hallway ceiling
+    static void replaceDoorwayWindows(ServerLevel level, Archive archive, Room source, Direction direction) {
+        Bounds shell = source.shell(archive.allocation());
+        int cx = source.centerX(archive.allocation()), cz = source.centerZ(archive.allocation());
+        String surfaceFinish = source.finishes().get(Surface.valueOf(direction.name()));
+        String plain = surfaceFinish == null || Finishes.WINDOW.equals(surfaceFinish) ? "nullspace:charcoal" : surfaceFinish;
+        for (int u = -Room.DOORWAY_REACH; u <= Room.DOORWAY_REACH; u++) for (int v = 0; v <= Room.DOORWAY_LINTEL; v++) {
+            int y = Room.FLOOR_Y + v;
+            BlockPos pos = switch (direction) {
+                case NORTH -> new BlockPos(cx + u, y, shell.minZ());
+                case SOUTH -> new BlockPos(cx + u, y, shell.maxZ());
+                case EAST -> new BlockPos(shell.maxX(), y, cz + u);
+                case WEST -> new BlockPos(shell.minX(), y, cz + u);
+            };
+            if (level.getBlockState(pos).is(Content.WINDOW.get())) set(level, pos, shellState(plain));
+        }
     }
 
     static void placeTunnelWalls(ServerLevel level, Archive archive, Room a, Room b, Direction direction, boolean onlyOverAirOrStructural) {

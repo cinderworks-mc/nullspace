@@ -113,6 +113,13 @@ public final class Room {
     private static void requireFinish(String finish) {
         if (finish == null || !finish.matches("[a-z0-9_.-]+:[a-z0-9/._-]+")) throw new ArchiveException("error.nullspace.finish.invalid");
     }
+    // doorway frame: 2 either side of the centre, up to the lintel row (the doorway itself is 3 wide, 3 high)
+    public static final int DOORWAY_REACH = 2, DOORWAY_LINTEL = 4;
+    // so a later repaint of the wall does not put the windows back over the hallway
+    void clearDoorwayWindows(Surface wall) {
+        individualFinishes.entrySet().removeIf(e -> e.getKey().surface == wall && Math.abs(e.getKey().u) <= DOORWAY_REACH
+            && e.getKey().v >= 0 && e.getKey().v <= DOORWAY_LINTEL && "nullspace:window".equals(e.getValue()));
+    }
     void enlarge() { if (tier >= maxTier()) throw new ArchiveException("error.nullspace.room.max_size"); tier++; }
     void raise() { if (heightTier >= HEIGHTS.length - 1) throw new ArchiveException("error.nullspace.room.max_height"); heightTier++; }
     void connect(Direction direction, int id) {

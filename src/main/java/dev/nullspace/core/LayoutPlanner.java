@@ -98,6 +98,7 @@ public final class LayoutPlanner {
         Room room = new Room(plan.roomId(), plan.gridX(), plan.gridZ(), 0);
         room.connect(plan.direction().opposite(), plan.sourceId());
         archive.room(plan.sourceId()).connect(plan.direction(), plan.roomId());
+        archive.room(plan.sourceId()).clearDoorwayWindows(Surface.valueOf(plan.direction().name()));
         archive.putRoom(room);
         return room;
     }
