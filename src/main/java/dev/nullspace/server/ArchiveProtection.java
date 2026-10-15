@@ -87,14 +87,27 @@ final class ArchiveProtection {
             if (!ArchiveService.mayDo(player, e.getPos(), Permission.ENTER)) { e.setCanceled(true); deny(player, Permission.ENTER); }
             return;
         }
-        boolean ok = ArchiveService.mayDo(player, e.getPos(), Permission.BUILD) && (!structural(e.getState()) || player.hasPermissions(2))
+        boolean ok = ArchiveService.mayDo(player, e.getPos(), Permission.BUILD) && (!structural(e.getState()) || player.hasPermissions(2) || movableControl(player, e.getPos(), e.getState()))
             && !AutomationGuard.breakDenied(player, player.level(), e.getPos()) && !AutomationGuard.padBreakDenied(player, e.getPos(), e.getState());
         if (!ok) { e.setCanceled(true); deny(player, Permission.BUILD); }
+    }
+
+    // owner can pick the room's terminal and exit up and move them. the waypoint hall's own stay fixed, the exit there is two tall
+    private static boolean movableControl(ServerPlayer player, BlockPos pos, BlockState state) {
+        if (!(state.getBlock() instanceof ControlBlock)) return false;
+        var archive = ArchiveService.registryOf(player.getServer()).at(pos.getX(), pos.getZ()).orElse(null);
+        if (archive == null || !ArchiveService.mayDo(player, pos, Permission.ADMIN)) return false;
+        var terminal = dev.nullspace.core.Basement.terminal(archive.allocation());
+        var exit = dev.nullspace.core.Basement.exit(archive.allocation());
+        boolean hall = (pos.getX() == terminal.x() && pos.getY() == terminal.y() && pos.getZ() == terminal.z())
+            || (pos.getX() == exit.x() && (pos.getY() == exit.y() || pos.getY() == exit.y() + 1) && pos.getZ() == exit.z());
+        return !hall;
     }
 
     private static void onPlace(BlockEvent.EntityPlaceEvent e) {
         if (!(e.getEntity() instanceof ServerPlayer player) || !(e.getLevel() instanceof Level level) || !inArchive(level)) return;
         if (!ArchiveService.mayDo(player, e.getPos(), Permission.BUILD) || AutomationGuard.placementDenied(player, level, e.getPos(), e.getPlacedBlock())) { e.setCanceled(true); deny(player, ArchiveService.mayDo(player, e.getPos(), Permission.BUILD) ? Permission.STORAGE : Permission.BUILD); return; }
+        if (e.getPlacedBlock().getBlock() instanceof ControlBlock && !ArchiveService.mayDo(player, e.getPos(), Permission.ADMIN)) { e.setCanceled(true); deny(player, Permission.ADMIN); return; }
         // The Waypoint Hall's rules: Destination Pads only on the twelve slots, only for the owner, nothing in the lift column or on a slot.
         String hall = HubPads.placementRefusal(player, ArchiveService.registryOf(player.getServer()).at(e.getPos().getX(), e.getPos().getZ()).orElse(null), e.getPos(),
             e.getPlacedBlock().is(Content.DESTINATION_PAD.get()));

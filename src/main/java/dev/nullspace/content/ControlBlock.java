@@ -58,6 +58,8 @@ public final class ControlBlock extends Block {
         }
         return map;
     }
+    // breakable by hand so the owner can rearrange a room, still blast proof. who may is up to ArchiveProtection
+    public static BlockBehaviour.Properties handProperties(){return BlockBehaviour.Properties.of().strength(2.0f,3600000).isValidSpawn((s,l,p,e)->false).pushReaction(net.minecraft.world.level.material.PushReaction.BLOCK).noOcclusion();}
     private final boolean exit;
     public boolean isExit(){return exit;}
     public ControlBlock(boolean exit, BlockBehaviour.Properties properties){super(properties);this.exit=exit;registerDefaultState(stateDefinition.any().setValue(FACING,Direction.NORTH).setValue(HALF,DoubleBlockHalf.LOWER));}

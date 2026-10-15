@@ -29,10 +29,11 @@ public final class Content {
     public static final DeferredRegister<CreativeModeTab> TABS=DeferredRegister.create(Registries.CREATIVE_MODE_TAB,Nullspace.ID);
     public static final DeferredBlock<ShellBlock> SHELL=BLOCKS.register("shell",()->new ShellBlock(ShellBlock.baseProperties()));
     public static final DeferredBlock<Block> WINDOW=BLOCKS.register("shell_window",()->new WindowBlock(ShellBlock.baseProperties().noOcclusion().isViewBlocking((s,l,p)->false)));
-    public static final DeferredBlock<ControlBlock> TERMINAL=BLOCKS.register("archive_terminal",()->new ControlBlock(false,ShellBlock.baseProperties().noOcclusion().lightLevel(s->7)));
-    public static final DeferredBlock<ControlBlock> EXIT=BLOCKS.register("archive_exit",()->new ControlBlock(true,ShellBlock.baseProperties().noOcclusion().lightLevel(s->10)));
+    public static final DeferredBlock<ControlBlock> TERMINAL=BLOCKS.register("archive_terminal",()->new ControlBlock(false,ControlBlock.handProperties().lightLevel(s->7)));
+    public static final DeferredBlock<ControlBlock> EXIT=BLOCKS.register("archive_exit",()->new ControlBlock(true,ControlBlock.handProperties().lightLevel(s->10)));
     public static final DeferredItem<Item> CARTRIDGE=ITEMS.register("access_cartridge",()->new AccessCartridgeItem(new Item.Properties().stacksTo(1)));
     public static final DeferredItem<BlockItem> TERMINAL_ITEM=ITEMS.registerSimpleBlockItem(TERMINAL);
+    public static final DeferredItem<BlockItem> EXIT_ITEM=ITEMS.registerSimpleBlockItem(EXIT);
     public static final DeferredItem<Item> EXPANDER=ITEMS.registerSimpleItem("spatial_expander");
     public static final DeferredItem<Item> ANNEX=ITEMS.registerSimpleItem("annex_module");
     public static final DeferredItem<Item> ANCHOR=ITEMS.registerSimpleItem("continuity_anchor",new Item.Properties().stacksTo(1));
@@ -48,6 +49,6 @@ public final class Content {
     public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES=DeferredRegister.create(Registries.BLOCK_ENTITY_TYPE,Nullspace.ID);
     public static final Supplier<BlockEntityType<DestinationPadBlockEntity>> DESTINATION_PAD_ENTITY=BLOCK_ENTITIES.register("destination_pad",()->BlockEntityType.Builder.of(DestinationPadBlockEntity::new,DESTINATION_PAD.get()).build(null));
     public static final DeferredItem<Item> APPLICATOR=ITEMS.register("surface_applicator",()->new SurfaceApplicatorItem(new Item.Properties().stacksTo(1)));
-    static { TABS.register("workshop",()->CreativeModeTab.builder().title(Component.translatable("itemGroup.nullspace.workshop")).icon(()->CARTRIDGE.toStack()).displayItems((p,out)->{out.accept(CARTRIDGE);out.accept(TERMINAL_ITEM);out.accept(EXPANDER);out.accept(ANNEX);out.accept(ANCHOR);out.accept(RECALL_MODULE);out.accept(WAYPOINT_MODULE);out.accept(ARCHIVE_LINK);out.accept(DESTINATION_PAD_ITEM);out.accept(APPLICATOR);}).build()); }
+    static { TABS.register("workshop",()->CreativeModeTab.builder().title(Component.translatable("itemGroup.nullspace.workshop")).icon(()->CARTRIDGE.toStack()).displayItems((p,out)->{out.accept(CARTRIDGE);out.accept(TERMINAL_ITEM);out.accept(EXIT_ITEM);out.accept(EXPANDER);out.accept(ANNEX);out.accept(ANCHOR);out.accept(RECALL_MODULE);out.accept(WAYPOINT_MODULE);out.accept(ARCHIVE_LINK);out.accept(DESTINATION_PAD_ITEM);out.accept(APPLICATOR);}).build()); }
     public static void register(IEventBus bus){BLOCKS.register(bus);BLOCK_ENTITIES.register(bus);ITEMS.register(bus);COMPONENTS.register(bus);SOUNDS.register(bus);TABS.register(bus);}
 }
