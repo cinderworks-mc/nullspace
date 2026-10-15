@@ -1,8 +1,12 @@
 <img src="assets/branding/nullspace-banner.png" alt="nullspace, a pocket workshop for tempad" width="100%">
 
 [![discord](https://img.shields.io/discord/1560020457363738624?label=discord&logo=discord&color=e8742a)](https://discord.gg/ZmmtPNJUcK)
+[![release](https://img.shields.io/github/v/release/cinderworks-mc/nullspace?color=e8742a)](https://github.com/cinderworks-mc/nullspace/releases)
+[![build](https://img.shields.io/github/actions/workflow/status/cinderworks-mc/nullspace/build.yml?label=build)](https://github.com/cinderworks-mc/nullspace/actions/workflows/build.yml)
 ![neoforge](https://img.shields.io/badge/neoforge-1.21.1-e8742a)
 ![licence](https://img.shields.io/badge/licence-mit%20%2B%20cc%20by%204.0-e8742a)
+
+# nullspace
 
 a pocket workshop for every player, reached through [tempad](https://github.com/terrarium-earth/Tempad) gateways. each player owns an archive: a furnished room in a shared starfield dimension that grows as you feed it materials.
 
@@ -18,7 +22,7 @@ an addon for tempad, so it needs tempad. neoforge 1.21.1. the source, the issue 
 - continuity anchor: keeps the archive running while nobody is in it
 - recall module: the exit leads back to wherever you died
 - waypoint hall: sits under the starter room, with a lift and destination pads that open your tempad destinations
-- archive link tape: a tempad upgrade that lists your archive in a full tempad. archive circle access works with the screening device and chronomark
+- archive link: a tempad upgrade that lists your archive in a full tempad. archive circle access works with tempad's screening device and chronomark
 - starter rooms for create, sophisticated storage, handcrafted, supplementaries and farmer's delight, offered only when the mod is installed
 
 ## what it looks like
@@ -81,7 +85,7 @@ java 21 exactly. `./gradlew build` puts the jar in `build/libs`. `./gradlew test
 
 ## reporting issues
 
-use the issue forms: bug, feature request, or compat report for a mod that misbehaves next to nullspace. include your nullspace, neoforge and tempad versions. if it breaks while you're running other mods, tell me here, not the authors of those mods. security problems go through the private report link in [SECURITY.md](.github/SECURITY.md).
+use the issue forms: bug, feature request, or compat report for a mod that misbehaves next to nullspace. include your nullspace, neoforge and tempad versions. if it breaks while you're running other mods, tell us here, not the authors of those mods. security problems go through the private report link in [SECURITY.md](.github/SECURITY.md).
 
 ## help with the art
 
