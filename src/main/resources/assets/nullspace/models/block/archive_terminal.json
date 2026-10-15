@@ -814,23 +814,7 @@
     }
   ],
   "display": {
-    "gui": {
-      "rotation": [
-        30,
-        225,
-        0
-      ],
-      "translation": [
-        0,
-        0,
-        0
-      ],
-      "scale": [
-        0.65,
-        0.65,
-        0.65
-      ]
-    },
+    "gui": {"rotation": [30, 225, 0], "translation": [0, 0.57, 0], "scale": [0.721, 0.721, 0.721]},
     "ground": {
       "translation": [
         0,
