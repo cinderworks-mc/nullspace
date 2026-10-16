@@ -15,7 +15,12 @@ public record TerminalAction(Kind kind, String text, int a, int b, int c) implem
         TEAM_TOGGLE, TEAM_PERMISSIONS,
         // cards: print (a = permission bits, enter is added; b = kind 0 single visit, 1 timed, 2 until revoked, plus
         // 4 for whoever holds it; c = hours for a timed card), revoke (a = number), forget a dead one (a = number)
-        PRINT_CARD, REVOKE_CARD, FORGET_CARD }
+        PRINT_CARD, REVOKE_CARD, FORGET_CARD,
+        // repaint one part of every room, or of every tunnel (a = SurfaceGroup ordinal: floor, ceiling, walls; text =
+        // finish)
+        SURFACE_ALL, SURFACE_TUNNELS,
+        // name a room (a = room id, text = the name; empty clears it)
+        RENAME_ROOM }
     public static final Type<TerminalAction> TYPE = new Type<>(Nullspace.id("terminal_action"));
     public static final StreamCodec<RegistryFriendlyByteBuf, TerminalAction> CODEC = StreamCodec.of(
         (b, p) -> { b.writeEnum(p.kind); b.writeUtf(p.text, 128); b.writeVarInt(p.a); b.writeVarInt(p.b); b.writeVarInt(p.c); },

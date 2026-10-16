@@ -16,6 +16,7 @@ import dev.nullspace.core.ReturnLocation;
 import dev.nullspace.core.Room;
 import dev.nullspace.core.ArchiveRegistry;
 import dev.nullspace.core.Surface;
+import dev.nullspace.core.SurfaceGroup;
 import dev.nullspace.core.TeamAccess;
 import dev.nullspace.core.Visit;
 import net.minecraft.core.HolderLookup;
@@ -188,6 +189,12 @@ final class ArchiveSavedData extends SavedData {
             c.put("list", list);
             tag.put("cards", c);
         }
+        // tunnel finishes: only written once one differs from charcoal; older saves have no key and read as charcoal.
+        if (archive.tunnelFinishes().values().stream().anyMatch(f -> !f.equals(Archive.DEFAULT_TUNNEL_FINISH))) {
+            CompoundTag t = new CompoundTag();
+            archive.tunnelFinishes().forEach((group, finish) -> t.putString(group.name(), finish));
+            tag.put("tunnelFinishes", t);
+        }
         return tag;
     }
 
@@ -231,7 +238,19 @@ final class ArchiveSavedData extends SavedData {
         }
         readCards(archive, tag);
         readBasement(archive, tag);
+        readTunnelFinishes(archive, tag);
         return archive;
+    }
+
+    // a damaged entry falls back to charcoal for that part, never makes the archive unreadable
+    static void readTunnelFinishes(Archive archive, CompoundTag tag) {
+        if (!tag.contains("tunnelFinishes", Tag.TAG_COMPOUND)) return;
+        CompoundTag t = tag.getCompound("tunnelFinishes");
+        for (SurfaceGroup group : SurfaceGroup.values()) {
+            if (!t.contains(group.name(), Tag.TAG_STRING)) continue;
+            try { archive.restoreTunnelFinishes(Map.of(group, t.getString(group.name()))); }
+            catch (RuntimeException e) { LOGGER.error("Dropping an unreadable tunnel finish of {} ({}); that part stays charcoal", archive.owner(), e.toString()); }
+        }
     }
 
     static CompoundTag writeCard(CardGrant card) {
@@ -339,6 +358,8 @@ final class ArchiveSavedData extends SavedData {
             individual.add(c);
         });
         tag.put("individualFinishes", individual);
+        // only named rooms carry the key; older saves have none and load unnamed
+        if (!room.name().isEmpty()) tag.putString("name", room.name());
         return tag;
     }
 
@@ -357,7 +378,9 @@ final class ArchiveSavedData extends SavedData {
             individual.put(new Room.FinishCoordinate(Surface.valueOf(c.getString("surface")), c.getInt("u"), c.getInt("v")), c.getString("finish"));
         }
         // a save from before ceilings could be raised has no heightTier: getInt gives 0, which is the original six blocks.
-        return Room.restore(tag.getInt("id"), tag.getInt("gridX"), tag.getInt("gridZ"), tag.getInt("tier"), tag.getInt("heightTier"), connections, finishes, individual);
+        Room room = Room.restore(tag.getInt("id"), tag.getInt("gridX"), tag.getInt("gridZ"), tag.getInt("tier"), tag.getInt("heightTier"), connections, finishes, individual);
+        if (tag.contains("name", Tag.TAG_STRING)) room.setName(tag.getString("name"));
+        return room;
     }
 
     private static CompoundTag writeInvitation(UUID guest, Invitation invitation) {

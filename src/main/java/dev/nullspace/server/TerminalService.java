@@ -15,6 +15,7 @@ import dev.nullspace.core.Permission;
 import dev.nullspace.core.Room;
 import dev.nullspace.core.ServerPolicy;
 import dev.nullspace.core.Surface;
+import dev.nullspace.core.SurfaceGroup;
 import dev.nullspace.integration.tempad.TempadGatewayBridge;
 import dev.nullspace.network.TerminalAction;
 import dev.nullspace.network.TerminalNetwork;
@@ -95,6 +96,9 @@ public final class TerminalService {
                 case DEST_ICON -> message = HubDestinations.icon(player, action.a(), action.b());
                 case SETTING -> message = ArchiveService.setSetting(player, action.text(), action.a() != 0);
                 case SURFACE -> { ArchiveService.paintSurface(player, action.a(), action.b(), action.text()); message = Msg.ok("message.nullspace.surface.repainted"); }
+                case SURFACE_ALL -> { ArchiveService.paintEveryRoom(player, action.a(), action.text()); message = Msg.ok("message.nullspace.surface.repainted_all", archive.rooms().size()); }
+                case RENAME_ROOM -> message = ArchiveService.renameRoom(player, action.a(), action.text());
+                case SURFACE_TUNNELS -> { ArchiveService.paintTunnels(player, action.a(), action.text()); message = Msg.ok("message.nullspace.surface.repainted_tunnels"); }
                 case TEAM_TOGGLE -> message = ArchiveService.setTeamAccess(player, action.a() != 0);
                 case TEAM_PERMISSIONS -> message = ArchiveService.setTeamPermissions(player, mask(action.a()));
                 case PRINT_CARD -> {
@@ -230,6 +234,18 @@ public final class TerminalService {
             (int) Math.max(1, Math.min(87600, policy.maxInvitationDurationMillis() / 3_600_000L)));
     }
 
+    private static int hereRoom(ServerPlayer player, Archive archive) {
+        if (!ArchiveService.DIMENSION.equals(player.level().dimension())) return -1;
+        var pos = player.blockPosition();
+        return archive.roomAt(pos.getX(), pos.getY(), pos.getZ()).map(Room::id).orElse(-1);
+    }
+
+    private static List<String> tunnelFinishes(Archive archive) {
+        List<String> list = new ArrayList<>();
+        for (SurfaceGroup group : SurfaceGroup.values()) list.add(archive.tunnelFinish(group));
+        return list;
+    }
+
     private static void send(ServerPlayer player, Component message, Component preview, boolean confirm, boolean failed) {
         Archive archive = ArchiveService.registryOf(player.getServer()).find(player.getUUID()).orElse(null);
         if (archive == null || !archive.initialized()) { Msg.refuse(player, Msg.no("error.nullspace.no_archive")); return; }
@@ -240,7 +256,7 @@ public final class TerminalService {
             for (Direction d : r.connections().keySet()) doors |= 1 << d.ordinal();
             List<String> finishes = new ArrayList<>();
             for (Surface surface : Surface.values()) finishes.add(r.finishes().get(surface));
-            rooms.add(new TerminalSnapshot.RoomInfo(r.id(), r.width(), r.height(), doors, finishes));
+            rooms.add(new TerminalSnapshot.RoomInfo(r.id(), r.width(), r.height(), doors, finishes, r.name()));
         }
         List<TerminalSnapshot.GuestInfo> guests = new ArrayList<>();
         var cache = player.getServer().getProfileCache();
@@ -263,6 +279,6 @@ public final class TerminalService {
             policy.maxRoomWidth(), policy.maxCeilingHeight(),
             archive.basement().installed(), ArchiveService.hubPolicy().enabled(), ArchiveService.hubPolicy().maxDestinations(), ServerConfig.HUB_CHRONON_COST.get(),
             archive.activeVisits().containsKey(player.getUUID()), destinations(archive), teamInfo(archive, policy),
-            cardInfos(archive, ArchiveService.now()), cardsInfo(player, archive, policy, ArchiveService.now())));
+            cardInfos(archive, ArchiveService.now()), cardsInfo(player, archive, policy, ArchiveService.now()), tunnelFinishes(archive), hereRoom(player, archive)));
     }
 }

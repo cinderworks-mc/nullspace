@@ -95,15 +95,22 @@ class TerminalLayoutTest {
         List<String> rows = new ArrayList<>();
         for (String r : new String[] {t.apply("gui.nullspace.room.start"), f.apply("gui.nullspace.room.n", new Object[] {8})}) rows.add(f.apply("gui.nullspace.room.row", new Object[] {r, 29, 12}));
         out.add(new Slot("room row", TerminalLayout.ROOM_LIST_W - 2 * tp, true, rows));
-        out.add(new Slot("room title", TerminalLayout.ROOM_PANE_W, false, List.of(f.apply("gui.nullspace.room.title", new Object[] {8, 29, 12}))));
+        out.add(new Slot("room title", TerminalLayout.ROOM_PANE_W - 46, false, List.of(f.apply("gui.nullspace.room.title", new Object[] {8, 29, 12}))));
+        out.add(new Slot("rename", 42 - 2 * tp, true, List.of(t.apply("gui.nullspace.room.rename"), t.apply("gui.nullspace.room.rename.save"))));
+        out.add(new Slot("room name field hint", TerminalLayout.ROOM_PANE_W - 46 - 8, false, List.of(t.apply("gui.nullspace.room.name"))));
+        out.add(new Slot("named room row", TerminalLayout.ROOM_LIST_W - 2 * tp - 6, true, List.of(f.apply("gui.nullspace.room.row_named", new Object[] {8, "Study"}), f.apply("gui.nullspace.room.row_named", new Object[] {t.apply("gui.nullspace.room.start"), "Lobby"}))));
         out.add(new Slot("widen/raise", TerminalLayout.ROOM_BTN_W - 2 * tp, true, List.of(f.apply("gui.nullspace.widen", new Object[] {29}), t.apply("gui.nullspace.widen.max"),
             f.apply("gui.nullspace.raise", new Object[] {12}), t.apply("gui.nullspace.raise.max"))));
         List<String> annex = new ArrayList<>();
         for (String d : DIRS) { annex.add(f.apply("gui.nullspace.annex.add", new Object[] {t.apply("gui.nullspace.dir." + d.toLowerCase())})); annex.add(f.apply("gui.nullspace.annex.joined", new Object[] {t.apply("gui.nullspace.dir." + d.toLowerCase())})); }
         out.add(new Slot("annex", TerminalLayout.ROOM_BTN_W - 2 * tp, true, annex));
         List<String> surfaces = new ArrayList<>();
-        for (String s : new String[] {"floor", "ceiling", "north", "east", "south", "west"}) surfaces.add(t.apply("gui.nullspace.surface." + s));
+        for (String s : new String[] {"floor", "ceiling", "north", "east", "south", "west", "walls"}) surfaces.add(t.apply("gui.nullspace.surface." + s));
         out.add(new Slot("surface", TerminalLayout.SURFACE_BTN_W - 2 * tp - 13, true, surfaces));
+        List<String> scopes = new ArrayList<>();
+        for (String s : new String[] {"room", "all", "tunnels"}) scopes.add(t.apply("gui.nullspace.paint.scope." + s));
+        out.add(new Slot("paint scope", TerminalLayout.SURFACE_BTN_W - 2 * tp, true, scopes));
+        out.add(new Slot("paint confirm", TerminalLayout.ROOM_PANE_W, false, List.of(f.apply("gui.nullspace.paint.confirm_all", new Object[] {256}), t.apply("gui.nullspace.paint.confirm_tunnels"))));
         out.add(new Slot("dialog title", TerminalLayout.DIALOG_TITLE_W, false, List.of(f.apply("gui.nullspace.dialog.expand", new Object[] {8}), f.apply("gui.nullspace.dialog.raise", new Object[] {8}),
             f.apply("gui.nullspace.dialog.annex", new Object[] {t.apply("message.nullspace.dir.north"), 8}))));
         out.add(new Slot("confirm", 108 - 2 * tp, true, List.of(t.apply("gui.nullspace.confirm"))));

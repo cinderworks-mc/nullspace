@@ -30,6 +30,9 @@ public final class Room {
     private final EnumMap<Direction, Integer> connections = new EnumMap<>(Direction.class);
     private final EnumMap<Surface, String> finishes = new EnumMap<>(Surface.class);
     private final Map<FinishCoordinate, String> individualFinishes = new HashMap<>();
+    // what the owner calls the room; empty means unnamed and the room is known by its number
+    public static final int MAX_NAME = 24;
+    private String name = "";
 
     public Room(int id, int gridX, int gridZ, int tier) { this(id, gridX, gridZ, tier, 0); }
     public Room(int id, int gridX, int gridZ, int tier, int heightTier) {
@@ -96,6 +99,27 @@ public final class Room {
         int cx = centerX(allocation), cz = centerZ(allocation);
         return new Bounds(cx - radius, FLOOR_Y + (includeShell ? 0 : 1), cz - radius,
             cx + radius, FLOOR_Y + height + (includeShell ? 1 : 0), cz + radius);
+    }
+    public String name() { return name; }
+    public void setName(String name) { this.name = cleanName(name); }
+    // control and format characters (newlines, section sign colour codes, zero width marks) go, runs of whitespace
+    // become one space, and the rest is cut to MAX_NAME characters
+    public static String cleanName(String raw) {
+        if (raw == null) return "";
+        String plain = raw.replaceAll("\u00a7.?", "");
+        StringBuilder out = new StringBuilder();
+        boolean space = false;
+        for (int i = 0; i < plain.length(); ) {
+            int c = plain.codePointAt(i);
+            i += Character.charCount(c);
+            if (Character.isWhitespace(c) || Character.isSpaceChar(c)) { space = out.length() > 0; continue; }
+            if (Character.isISOControl(c) || Character.getType(c) == Character.FORMAT || Character.getType(c) == Character.PRIVATE_USE
+                || Character.getType(c) == Character.SURROGATE || Character.getType(c) == Character.UNASSIGNED) continue;
+            if (space) { out.append(' '); space = false; }
+            out.appendCodePoint(c);
+        }
+        String clean = out.toString();
+        return clean.codePointCount(0, clean.length()) <= MAX_NAME ? clean : clean.substring(0, clean.offsetByCodePoints(0, MAX_NAME)).strip();
     }
     public String finish(FinishCoordinate coordinate) { return individualFinishes.getOrDefault(coordinate, finishes.get(coordinate.surface)); }
     public void setSurfaceFinish(Surface surface, String finish) {

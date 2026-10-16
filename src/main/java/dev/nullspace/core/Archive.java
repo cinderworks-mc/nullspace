@@ -1,12 +1,14 @@
 package dev.nullspace.core;
 
 import java.util.Collections;
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
@@ -27,12 +29,16 @@ public final class Archive {
     private TeamAccess teamAccess = TeamAccess.OFF;
     private final Map<UUID, CardGrant> cards = new LinkedHashMap<>();
     private int nextCardNumber = 1;
+    // tunnels have no record of their own, so their finish lives here. older saves have none and read as charcoal
+    public static final String DEFAULT_TUNNEL_FINISH = "nullspace:charcoal";
+    private final EnumMap<SurfaceGroup, String> tunnelFinishes = new EnumMap<>(SurfaceGroup.class);
 
     public Archive(UUID owner, Allocation allocation, String starterPreset) {
         this.owner = Objects.requireNonNull(owner); this.allocation = Objects.requireNonNull(allocation);
         if (starterPreset == null || !starterPreset.matches("[a-z0-9_.-]+:[a-z0-9/._-]+")) throw ArchiveException.corrupt("starter-preset");
         this.starterPreset = starterPreset;
         rooms.put(0, new Room(0, 0, 0, 0));
+        for (SurfaceGroup g : SurfaceGroup.values()) tunnelFinishes.put(g, DEFAULT_TUNNEL_FINISH);
     }
     public static Archive restore(UUID owner, Allocation allocation, String starterPreset, boolean initialized,
                                   boolean anchorInstalled, ArchiveSettings settings, Map<Integer, Room> rooms,
@@ -88,11 +94,19 @@ public final class Archive {
     public Map<UUID, CardGrant> cards() { return Collections.unmodifiableMap(cards); }
     public int nextCardNumber() { return nextCardNumber; }
     public Map<String, Set<Permission>> presets() { return Collections.unmodifiableMap(presets); }
+    public Map<SurfaceGroup, String> tunnelFinishes() { return Collections.unmodifiableMap(tunnelFinishes); }
+    public String tunnelFinish(SurfaceGroup group) { return tunnelFinishes.get(group); }
     public Room room(int id) {
         Room room = rooms.get(id);
         if (room == null) throw new ArchiveException("error.nullspace.room.unknown");
         return room;
     }
+    // the room whose shell holds the spot (walls and doorways count), or none in a tunnel or outside the rooms
+    public Optional<Room> roomAt(int x, int y, int z) {
+        for (Room room : rooms.values()) if (room.shell(allocation).contains(x, y, z)) return Optional.of(room);
+        return Optional.empty();
+    }
+    public Room renameRoom(UUID actor, int id, String name) { requireOwner(actor); Room room = room(id); room.setName(name); return room; }
     public void requireOwner(UUID actor) { if (!owner.equals(actor)) throw new ArchiveSecurityException("error.nullspace.owner_only"); }
     public void updateSettings(UUID actor, ArchiveSettings settings) { requireOwner(actor); this.settings = Objects.requireNonNull(settings); }
     public void installAnchor(UUID actor) { requireOwner(actor); anchorInstalled = true; }
@@ -128,6 +142,18 @@ public final class Archive {
     }
     void setRecall(RecallPoint point) { recall = point; }
     public void restoreRecall(boolean installed, RecallPoint point) { recallInstalled = installed; recall = installed ? point : null; }
+    // the same finish on that part of every room. a surface set as a whole drops its per-block paint, so every room
+    // ends up looking the same
+    public void paintEveryRoom(UUID actor, SurfaceGroup group, String finish) {
+        requireOwner(actor);
+        for (Room room : rooms.values()) for (Surface surface : group.surfaces()) room.setSurfaceFinish(surface, finish);
+    }
+    public void setTunnelFinish(UUID actor, SurfaceGroup group, String finish) { requireOwner(actor); putTunnelFinish(group, finish); }
+    public void restoreTunnelFinishes(Map<SurfaceGroup, String> saved) { saved.forEach(this::putTunnelFinish); }
+    private void putTunnelFinish(SurfaceGroup group, String finish) {
+        if (finish == null || !finish.matches("[a-z0-9_.-]+:[a-z0-9/._-]+")) throw new ArchiveException("error.nullspace.finish.invalid");
+        tunnelFinishes.put(Objects.requireNonNull(group), finish);
+    }
     public void savePreset(UUID actor, String name, Set<Permission> permissions) { requireOwner(actor); putPreset(name, permissions); }
     private void putPreset(String name, Set<Permission> permissions) {
         if (name == null || !name.matches("[A-Za-z0-9 _.-]{1,48}")) throw new ArchiveException("error.nullspace.preset.bad_name");

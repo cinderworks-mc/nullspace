@@ -85,7 +85,8 @@ final class ArchiveCommands {
             owner.sendSystemMessage(ArchiveService.setSetting(owner, StringArgumentType.getString(c, "key").toLowerCase(Locale.ROOT), BoolArgumentType.getBool(c, "value"))))))));
         root.then(Commands.literal("room")
             .then(Commands.literal("list").executes(c -> run(c, owner -> ArchiveService.ownArchive(owner).rooms().values().forEach(r -> owner.sendSystemMessage(
-                Msg.ok("command.nullspace.room.entry", r.id(), r.width(), r.height(), doorNames(r)))))))
+                r.name().isEmpty() ? Msg.ok("command.nullspace.room.entry", r.id(), r.width(), r.height(), doorNames(r))
+                    : Msg.ok("command.nullspace.room.entry_named", r.id(), r.width(), r.height(), doorNames(r), r.name()))))))
             .then(Commands.literal("preview")
                 .then(Commands.literal("expand").then(Commands.argument("room", IntegerArgumentType.integer(0)).executes(c -> run(c, owner ->
                     owner.sendSystemMessage(RoomOperations.previewExpansion(owner, IntegerArgumentType.getInteger(c, "room")).text())))))

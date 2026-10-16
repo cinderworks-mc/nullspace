@@ -11,6 +11,7 @@ import dev.nullspace.core.Direction;
 import dev.nullspace.core.LayoutPlanner;
 import dev.nullspace.core.Room;
 import dev.nullspace.core.Surface;
+import dev.nullspace.core.SurfaceGroup;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.TicketType;
@@ -118,11 +119,14 @@ public final class RoomBuilder {
         }
     }
 
-    public static int repaintSurface(ServerLevel level, Archive archive, Room room, Surface surface) {
+    public static int repaintSurface(ServerLevel level, Archive archive, Room room, Surface surface) { return repaintSurfaces(level, archive, room, Set.of(surface)); }
+
+    // one pass and one window settle per room, however many surfaces changed
+    static int repaintSurfaces(ServerLevel level, Archive archive, Room room, Set<Surface> surfaces) {
         Bounds shell = room.shell(archive.allocation());
         int changed = 0;
         for (BlockPoint p : LayoutPlanner.shellBlocks(archive, room, room.width())) {
-            if (surfaceOf(p.x(), p.y(), p.z(), shell) != surface || LayoutPlanner.inConnectedPassage(archive, room, p)) continue;
+            if (!surfaces.contains(surfaceOf(p.x(), p.y(), p.z(), shell)) || LayoutPlanner.inConnectedPassage(archive, room, p)) continue;
             BlockPos pos = new BlockPos(p.x(), p.y(), p.z());
             if (!structural(level.getBlockState(pos))) continue;
             placeShell(level, archive, room, p.x(), p.y(), p.z(), shell);
@@ -130,6 +134,26 @@ public final class RoomBuilder {
         }
         if (changed > 0) settleWindows(level, shell);
         return changed;
+    }
+
+    public static int repaintEveryRoom(ServerLevel level, Archive archive, SurfaceGroup group) {
+        int changed = 0;
+        for (Room room : archive.rooms().values()) changed += repaintSurfaces(level, archive, room, group.surfaces());
+        return changed;
+    }
+
+    // every tunnel once (from its lower numbered end). only shell blocks are replaced, nothing a player put there
+    public static int repaintTunnels(ServerLevel level, Archive archive) {
+        int changed = 0;
+        for (Room room : archive.rooms().values()) for (var e : room.connections().entrySet())
+            if (room.id() < e.getValue()) changed += tunnelWalls(level, archive, room, archive.room(e.getValue()), e.getKey(), false, true);
+        return changed;
+    }
+
+    // a damaged or hand edited save could name a finish that does not exist (or the window, which tunnels do not take)
+    static BlockState tunnelState(Archive archive, SurfaceGroup group) {
+        String finish = archive.tunnelFinish(group);
+        return shellState(finish == null || !Finishes.supported(finish) || Finishes.WINDOW.equals(finish) ? Archive.DEFAULT_TUNNEL_FINISH : finish);
     }
 
     static Optional<Room> roomOfShell(Archive archive, BlockPos pos) {
@@ -270,16 +294,23 @@ public final class RoomBuilder {
     }
 
     static void placeTunnelWalls(ServerLevel level, Archive archive, Room a, Room b, Direction direction, boolean onlyOverAirOrStructural) {
+        tunnelWalls(level, archive, a, b, direction, onlyOverAirOrStructural, false);
+    }
+
+    private static int tunnelWalls(ServerLevel level, Archive archive, Room a, Room b, Direction direction, boolean onlyOverAirOrStructural, boolean repaintOnly) {
         Bounds tunnel = tunnelInterior(archive, a, b, direction);
+        BlockState floor = tunnelState(archive, SurfaceGroup.FLOOR), ceiling = tunnelState(archive, SurfaceGroup.CEILING), walls = tunnelState(archive, SurfaceGroup.WALLS);
+        int changed = 0;
         for (int x = tunnel.minX() - 1; x <= tunnel.maxX() + 1; x++) for (int y = Room.FLOOR_Y; y <= Room.FLOOR_Y + 4; y++) for (int z = tunnel.minZ() - 1; z <= tunnel.maxZ() + 1; z++) {
             boolean boundary = x == tunnel.minX() - 1 || x == tunnel.maxX() + 1 || y == Room.FLOOR_Y || y == Room.FLOOR_Y + 4 || z == tunnel.minZ() - 1 || z == tunnel.maxZ() + 1;
             if (!boundary || insideAnyShell(archive, a, b, x, y, z)) continue;
             BlockPos pos = new BlockPos(x, y, z);
             BlockState current = level.getBlockState(pos);
-            if (onlyOverAirOrStructural && !current.isAir() && !structural(current)) continue;
-            BlockState wanted = shellState("nullspace:charcoal");
-            if (!current.equals(wanted)) set(level, pos, wanted);
+            if (repaintOnly ? !structural(current) : onlyOverAirOrStructural && !current.isAir() && !structural(current)) continue;
+            BlockState wanted = y == Room.FLOOR_Y ? floor : y == Room.FLOOR_Y + 4 ? ceiling : walls;
+            if (!current.equals(wanted)) { set(level, pos, wanted); changed++; }
         }
+        return changed;
     }
 
     public static void rollbackAnnex(ServerLevel level, Archive archive, int sourceId, Direction direction, int newRoomId, int gridX, int gridZ) {

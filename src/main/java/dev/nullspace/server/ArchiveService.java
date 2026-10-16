@@ -18,6 +18,7 @@ import dev.nullspace.core.ReturnLocation;
 import dev.nullspace.core.Room;
 import dev.nullspace.core.ServerPolicy;
 import dev.nullspace.core.Surface;
+import dev.nullspace.core.SurfaceGroup;
 import dev.nullspace.core.TeamPolicy;
 import dev.nullspace.core.TeamProvider;
 import dev.nullspace.core.TeamRelation;
@@ -130,6 +131,7 @@ public final class ArchiveService implements TempadGatewayBridge.GatewayAccess {
         HubLift.install(forgeBus);
         TravelGuard.install(forgeBus);
         WindowHeal.install(forgeBus);
+        RoomBanner.install(forgeBus);
         ExitUpgrade.install(forgeBus);
         // soft dependency: the integration class is only touched (and loaded) when carry on is present. an
         // unsupported version (event class or data api changed) logs a warning and leaves the integration off, launch
@@ -507,6 +509,33 @@ public final class ArchiveService implements TempadGatewayBridge.GatewayAccess {
         var surface = Surface.values()[Math.floorMod(surfaceOrdinal, Surface.values().length)];
         room.setSurfaceFinish(surface, finish);
         RoomBuilder.repaintSurface(owner.getServer().getLevel(DIMENSION), archive, room, surface);
+        instance().markDirty(owner.getServer());
+    }
+
+    static Component renameRoom(ServerPlayer owner, int roomId, String name) {
+        Archive archive = ownArchive(owner);
+        Room room = archive.renameRoom(owner.getUUID(), roomId, name);
+        instance().markDirty(owner.getServer());
+        return room.name().isEmpty() ? Msg.ok("message.nullspace.room.unnamed", room.id()) : Msg.ok("message.nullspace.room.renamed", room.id(), room.name());
+    }
+
+    static void paintEveryRoom(ServerPlayer owner, int groupOrdinal, String finish) { paintEveryRoom(owner, owner.getServer().getLevel(DIMENSION), groupOrdinal, finish); }
+    static void paintEveryRoom(ServerPlayer owner, ServerLevel level, int groupOrdinal, String finish) {
+        Archive archive = ownArchive(owner);
+        if (!Finishes.supported(finish)) throw new ArchiveException("error.nullspace.finish.unsupported");
+        var group = SurfaceGroup.values()[Math.floorMod(groupOrdinal, SurfaceGroup.values().length)];
+        archive.paintEveryRoom(owner.getUUID(), group, finish);
+        RoomBuilder.repaintEveryRoom(level, archive, group);
+        instance().markDirty(owner.getServer());
+    }
+
+    static void paintTunnels(ServerPlayer owner, int groupOrdinal, String finish) { paintTunnels(owner, owner.getServer().getLevel(DIMENSION), groupOrdinal, finish); }
+    static void paintTunnels(ServerPlayer owner, ServerLevel level, int groupOrdinal, String finish) {
+        Archive archive = ownArchive(owner);
+        if (!Finishes.supported(finish)) throw new ArchiveException("error.nullspace.finish.unsupported");
+        if (Finishes.WINDOW.equals(finish)) throw new ArchiveException("error.nullspace.finish.no_tunnel_window");
+        archive.setTunnelFinish(owner.getUUID(), SurfaceGroup.values()[Math.floorMod(groupOrdinal, SurfaceGroup.values().length)], finish);
+        RoomBuilder.repaintTunnels(level, archive);
         instance().markDirty(owner.getServer());
     }
     public static void exit(ServerPlayer player) {

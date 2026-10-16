@@ -10,6 +10,7 @@ import dev.nullspace.network.TerminalSnapshot;
 import dev.nullspace.server.Finishes;
 import dev.nullspace.server.HubDestinations;
 import dev.nullspace.text.Msg;
+import net.minecraft.Util;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.EditBox;
@@ -53,6 +54,21 @@ public final class TerminalScreen extends Screen {
     private static final String[] SURFACES = {"floor", "ceiling", "north", "east", "south", "west"};
     private static Component surfaceName(int s) { return Component.translatable("gui.nullspace.surface." + SURFACES[s]); }
     private static Component surfaceLong(int s) { return Component.translatable("gui.nullspace.surface.long." + SURFACES[s]); }
+    // what the painter works on: the picked room, every room, or the tunnels. the last two use floor, ceiling, walls
+    private static final String[] SCOPES = {"room", "all", "tunnels"};
+    private static final String[] GROUPS = {"floor", "ceiling", "walls"};
+    private static Component groupName(int g) { return Component.translatable("gui.nullspace.surface." + GROUPS[g]); }
+    private static Component groupLong(int g) { return Component.translatable("gui.nullspace.surface.long." + GROUPS[g]); }
+    // painting every room or every tunnel takes a second click on the same finish: it also paints over blocks
+    // painted one by one. any other click, a new snapshot or a few seconds without the second click disarms it
+    private static final long ARM_MILLIS = 4000;
+    private String paintArmed;
+    private long paintArmedAt;
+    // renaming the selected room: the header turns into a text field until it is saved or another room is picked
+    private boolean renaming;
+    private String renameText = "";
+    private EditBox renameBox;
+    private static final int RENAME_W = 42, HEADER_W = ROOM_PANE_W - RENAME_W - 4;
     private static final String[] TABS = {"gui.nullspace.tab.rooms", "gui.nullspace.tab.guests", "gui.nullspace.tab.settings", "gui.nullspace.tab.destinations"};
     private static final String[] TAB_ICONS = {"room", "permission_enter", "upgrade", "destinations"};
     private int[] tabX = new int[4], tabW = new int[4];
@@ -60,7 +76,7 @@ public final class TerminalScreen extends Screen {
     private static final String PRESET_PATTERN = "[A-Za-z0-9 _.-]{1,48}";
 
     private TerminalSnapshot data;
-    private int tab, selectedRoom, roomScroll, guestScroll, previewScroll, paintSurface = -1, selectedDest = -1, destScroll;
+    private int tab, selectedRoom, roomScroll, guestScroll, previewScroll, paintSurface = -1, paintScope, selectedDest = -1, destScroll;
     private String destName = "";
     private int deleteArmed = -1;
     private EditBox destBox;
@@ -91,6 +107,8 @@ public final class TerminalScreen extends Screen {
         if (!next.failed() && lastSent == TerminalAction.Kind.SAVE_PRESET) presetName = "";
         if (!next.failed() && (lastSent == TerminalAction.Kind.DEST_CAPTURE || lastSent == TerminalAction.Kind.DEST_IMPORT || lastSent == TerminalAction.Kind.DEST_RENAME)) destName = "";
         deleteArmed = -1;
+        paintArmed = null;
+        if (!next.failed() && lastSent == TerminalAction.Kind.RENAME_ROOM) renaming = false;
         lastSent = null;
         rebuildWidgets();
     }
@@ -127,7 +145,7 @@ public final class TerminalScreen extends Screen {
         tabX = tabs[0]; tabW = tabs[1];
         for (int i = 0; i < TABS.length; i++) {
             int index = i;
-            add(new Btn("tab:" + i, left + tabX[i], top + TAB_Y, tabW[i], TAB_H, Component.translatable(TABS[i]), () -> { tab = index; pending = null; removeArmed = null; rebuildWidgets(); if (index != 0 || data.canConfirm()) send(TerminalAction.Kind.REFRESH, "", 0, 0, 0); })).pad(TAB_ICON_PAD - 3, 0).selected(tab == i);
+            add(new Btn("tab:" + i, left + tabX[i], top + TAB_Y, tabW[i], TAB_H, Component.translatable(TABS[i]), () -> { tab = index; pending = null; removeArmed = null; renaming = false; rebuildWidgets(); if (index != 0 || data.canConfirm()) send(TerminalAction.Kind.REFRESH, "", 0, 0, 0); })).pad(TAB_ICON_PAD - 3, 0).selected(tab == i);
         }
         add(new Btn("close", left + CLOSE_X, top + 5, CLOSE_W, 12, Component.literal("x"), this::onClose).style(Btn.Style.DANGER));
         switch (tab) { case 0 -> rooms(); case 1 -> guests(); case 2 -> settings(); default -> destinations(); }
@@ -147,8 +165,10 @@ public final class TerminalScreen extends Screen {
         roomScroll = Math.max(0, Math.min(roomScroll, rooms.size() - ROOM_ROWS));
         for (int i = 0; i < ROOM_ROWS && roomScroll + i < rooms.size(); i++) {
             var r = rooms.get(roomScroll + i);
-            add(new Btn("room:" + r.id(), left + 10, top + 58 + i * ROOM_ROW_H, 94, ROOM_ROW_H - 1, Component.translatable("gui.nullspace.room.row", r.id() == 0 ? Component.translatable("gui.nullspace.room.start") : Component.translatable("gui.nullspace.room.n", r.id()), r.width(), r.height()),
-                () -> { selectedRoom = r.id(); pending = null; paintSurface = -1; send(TerminalAction.Kind.REFRESH, "", 0, 0, 0); })).selected(r.id() == selectedRoom).leftAligned();
+            boolean here = r.id() == data.hereRoom();
+            Btn row = add(new Btn("room:" + r.id(), left + 10, top + 58 + i * ROOM_ROW_H, 94, ROOM_ROW_H - 1, roomRow(r),
+                () -> { selectedRoom = r.id(); pending = null; paintSurface = -1; renaming = false; send(TerminalAction.Kind.REFRESH, "", 0, 0, 0); })).selected(r.id() == selectedRoom).leftAligned().pad(0, here ? HERE_DOT + 2 : 0);
+            if (here || !r.name().isEmpty()) row.setTooltip(Tooltip.create(roomTip(r, here)));
         }
         if (rooms.size() > ROOM_ROWS) {
             add(new Btn("rooms-up", left + 74, top + 45, 14, 11, Component.literal("^"), () -> { roomScroll--; rebuildWidgets(); })).enabled(roomScroll > 0);
@@ -161,6 +181,7 @@ public final class TerminalScreen extends Screen {
             add(new Btn("cancel", x + 112, top + 174, 66, 18, Component.translatable("gui.nullspace.cancel"), () -> { pending = null; previewScroll = 0; send(TerminalAction.Kind.REFRESH, "", 0, 0, 0); }));
             return;
         }
+        renameControls(x, room);
         int nextWide = Room.nextWidth(room.id(), room.width()), nextHigh = Room.nextHeight(room.height());
         boolean wideMax = nextWide < 0, wideVeto = !wideMax && nextWide > data.maxRoomWidth();
         boolean highMax = nextHigh < 0, highVeto = !highMax && nextHigh > data.maxCeilingHeight();
@@ -181,12 +202,18 @@ public final class TerminalScreen extends Screen {
         for (int d = 0; d < 4; d++) {
             int dir = d;
             boolean door = (room.doors() & (1 << d)) != 0;
-            Btn b = add(new Btn("annex:" + d, x + (d % 2) * 90, top + 80 + (d / 2) * 16, 88, 15, Component.translatable(door ? "gui.nullspace.annex.joined" : "gui.nullspace.annex.add", Component.translatable(DIRS[d])), () -> {
+            Btn b = add(new Btn("annex:" + d, x + (d % 2) * 90, top + 78 + (d / 2) * 16, 88, 15, Component.translatable(door ? "gui.nullspace.annex.joined" : "gui.nullspace.annex.add", Component.translatable(DIRS[d])), () -> {
                 pending = new TerminalAction(TerminalAction.Kind.ANNEX, "", room.id(), dir, 0);
                 send(TerminalAction.Kind.PREVIEW_ANNEX, "", room.id(), dir, 0);
             })).enabled(!door && canAdd);
             if (!door && !canAdd) b.setTooltip(Tooltip.create(Component.translatable("gui.nullspace.annex.limit", data.maxRooms())));
         }
+        for (int i = 0; i < SCOPES.length; i++) {
+            int scope = i;
+            add(new Btn("scope:" + SCOPES[i], x + i * 60, top + 113, 58, 12, Component.translatable("gui.nullspace.paint.scope." + SCOPES[i]), () -> { paintScope = scope; paintSurface = -1; rebuildWidgets(); }))
+                .selected(paintScope == i).setTooltip(Tooltip.create(Component.translatable("gui.nullspace.paint.scope.tip." + SCOPES[i])));
+        }
+        if (paintScope != 0) { groupPainter(x); return; }
         for (int s = 0; s < 6 && s < room.finishes().size(); s++) {
             int surface = s;
             add(new Btn("surf:" + s, x + (s % 3) * 60, top + 128 + (s / 3) * 16, 58, 15, surfaceName(s), () -> { paintSurface = paintSurface == surface ? -1 : surface; rebuildWidgets(); }))
@@ -203,6 +230,98 @@ public final class TerminalScreen extends Screen {
                     .setTooltip(Tooltip.create(finishTip(id, false)));
             }
         }
+    }
+
+    static final int HERE_DOT = 4;
+
+    private static Component roomNumber(TerminalSnapshot.RoomInfo r) { return r.id() == 0 ? Component.translatable("gui.nullspace.room.start") : Component.translatable("gui.nullspace.room.n", r.id()); }
+
+    // a named room shows its number and name in the list; the size moves to the header and the tooltip
+    private static Component roomRow(TerminalSnapshot.RoomInfo r) {
+        if (r.name().isEmpty()) return Component.translatable("gui.nullspace.room.row", roomNumber(r), r.width(), r.height());
+        return Component.translatable("gui.nullspace.room.row_named", r.id() == 0 ? Component.translatable("gui.nullspace.room.start") : Component.literal(String.valueOf(r.id())), r.name()); // i18n-ok: a number
+    }
+
+    // a named room's header is its name (cut to fit) and then its size, so a long name never hides the size
+    private void roomHeader(GuiGraphics g, TerminalSnapshot.RoomInfo r, int x, int y) {
+        if (r.name().isEmpty()) { label(g, Component.translatable("gui.nullspace.room.title", r.id(), r.width(), r.height()).getString(), HEADER_W, x, y, AMBER); return; }
+        String size = Component.translatable("gui.nullspace.room.size", r.width(), r.height()).getString();
+        int nameW = HEADER_W - font.width(size) - 6;
+        label(g, r.name(), nameW, x, y, AMBER);
+        g.drawString(font, size, x + font.width(clip(r.name(), nameW)) + 6, y, DIM, false);
+    }
+
+    private static Component roomTip(TerminalSnapshot.RoomInfo r, boolean here) {
+        var tip = Component.empty();
+        if (!r.name().isEmpty()) tip.append(Component.literal(r.name())).append(Component.translatable("gui.nullspace.perm.tip.newline")); // i18n-ok: the owner's own text
+        tip.append(Component.translatable("gui.nullspace.room.title", r.id(), r.width(), r.height()));
+        if (here) tip.append(Component.translatable("gui.nullspace.perm.tip.newline")).append(Component.translatable("gui.nullspace.room.here"));
+        return tip;
+    }
+
+    private void renameControls(int x, TerminalSnapshot.RoomInfo room) {
+        renameBox = null;
+        if (!renaming) {
+            add(new Btn("rename", x + HEADER_W + 4, top + 44, RENAME_W, 12, Component.translatable("gui.nullspace.room.rename"), () -> { renaming = true; renameText = room.name(); rebuildWidgets(); }))
+                .setTooltip(Tooltip.create(Component.translatable("gui.nullspace.room.rename.tip", Room.MAX_NAME)));
+            return;
+        }
+        renameBox = new Field(font, x, top + 43, HEADER_W, 13, Component.translatable("gui.nullspace.room.name"));
+        renameBox.setMaxLength(Room.MAX_NAME); renameBox.setHint(hint("gui.nullspace.room.name", HEADER_W - 8)); renameBox.setValue(renameText);
+        renameBox.setResponder(t -> renameText = t);
+        addRenderableWidget(renameBox);
+        setInitialFocus(renameBox);
+        add(new Btn("rename-save", x + HEADER_W + 4, top + 44, RENAME_W, 12, Component.translatable("gui.nullspace.room.rename.save"), this::saveRename).style(Btn.Style.ACCENT))
+            .setTooltip(Tooltip.create(Component.translatable("gui.nullspace.room.rename.save.tip")));
+    }
+
+    private void saveRename() { var room = room(); if (room != null) send(TerminalAction.Kind.RENAME_ROOM, renameText.strip(), room.id(), 0, 0); }
+
+    // the finish a group has everywhere it applies (every room, or the tunnels), or null when it differs somewhere
+    private String groupFinish(int group) {
+        if (paintScope == 2) return group < data.tunnelFinishes().size() ? data.tunnelFinishes().get(group) : null;
+        String shared = null;
+        for (var r : data.rooms()) for (int s : group == 0 ? new int[] {0} : group == 1 ? new int[] {1} : new int[] {2, 3, 4, 5}) {
+            if (s >= r.finishes().size()) return null;
+            String f = r.finishes().get(s);
+            if (shared == null) shared = f; else if (!shared.equals(f)) return null;
+        }
+        return shared;
+    }
+
+    private void groupPainter(int x) {
+        boolean tunnels = paintScope == 2;
+        for (int g = 0; g < GROUPS.length; g++) {
+            int group = g;
+            String current = groupFinish(g);
+            Component now = current == null ? Component.translatable("gui.nullspace.finish.mixed") : Finishes.name(current);
+            add(new Btn("group:" + GROUPS[g], x + g * 60, top + 128, 58, 15, groupName(g), () -> { paintSurface = paintSurface == group ? -1 : group; rebuildWidgets(); }))
+                .selected(paintSurface == g).swatch(current).pad(current == null ? 13 : 0, 0).leftAligned()
+                .setTooltip(Tooltip.create(tunnels ? Component.translatable("gui.nullspace.surface.tip.tunnels", groupLong(g), now)
+                    : Component.translatable("gui.nullspace.surface.tip.all", groupLong(g), data.rooms().size(), now)));
+        }
+        if (paintSurface < 0 || paintSurface >= GROUPS.length) return;
+        String current = groupFinish(paintSurface);
+        List<String> all = new ArrayList<>(Finishes.all());
+        if (tunnels) all.remove(Finishes.WINDOW);
+        for (int i = 0; i < all.size(); i++) {
+            String id = all.get(i);
+            int group = paintSurface;
+            String key = paintScope + ":" + group + ":" + id;
+            boolean armed = key.equals(paintArmed);
+            add(new Btn("finish:" + id.substring(id.indexOf(':') + 1), x + i * 25, top + 172, 23, 22, Component.empty(), () -> {
+                if (key.equals(paintArmed)) { paintArmed = null; send(tunnels ? TerminalAction.Kind.SURFACE_TUNNELS : TerminalAction.Kind.SURFACE_ALL, id, group, 0, 0); }
+                else { paintArmed = key; paintArmedAt = Util.getMillis(); rebuildWidgets(); }
+            })).selected(id.equals(current)).swatch(id).style(armed ? Btn.Style.DANGER : Btn.Style.NORMAL)
+                .setTooltip(Tooltip.create(armed ? Finishes.name(id).copy().append(Component.translatable("gui.nullspace.paint.armed_note")) : finishTip(id, false)));
+        }
+    }
+
+    private boolean paintIsArmed() { return paintArmed != null && paintArmed.startsWith(paintScope + ":" + paintSurface + ":"); }
+
+    @Override public void tick() {
+        super.tick();
+        if (paintArmed != null && Util.getMillis() - paintArmedAt > ARM_MILLIS) { paintArmed = null; rebuildWidgets(); }
     }
 
     static Component finishTip(String id, boolean selected) {
@@ -637,9 +756,12 @@ public final class TerminalScreen extends Screen {
             label(g, (lines.size() > DIALOG_LINES ? Component.translatable("gui.nullspace.dialog.scroll", previewScroll + 1, Math.min(lines.size(), previewScroll + DIALOG_LINES), lines.size()) : Component.translatable("gui.nullspace.dialog.permanent")).getString(), DIALOG_TEXT_W, x + 4, top + 158, DIM);
             return;
         }
-        label(g, Component.translatable("gui.nullspace.room.title", room.id(), room.width(), room.height()).getString(), 178, x, top + 46, AMBER);
-        label(g, Component.translatable("gui.nullspace.paint.title").getString(), ROOM_PANE_W, x, top + 117, DIM);
-        if (paintSurface >= 0 && paintSurface < room.finishes().size()) label(g, Component.translatable("gui.nullspace.paint.finish_for", surfaceLong(paintSurface)).getString(), ROOM_PANE_W, x, top + 162, IVORY);
+        if (!renaming) roomHeader(g, room, x, top + 46);
+        if (paintScope != 0 && paintIsArmed())
+            label(g, Component.translatable(paintScope == 2 ? "gui.nullspace.paint.confirm_tunnels" : "gui.nullspace.paint.confirm_all", data.rooms().size()).getString(), ROOM_PANE_W, x, top + 162, BAD);
+        else if (paintScope != 0 && paintSurface >= 0 && paintSurface < GROUPS.length)
+            label(g, Component.translatable(paintScope == 2 ? "gui.nullspace.paint.finish_for_tunnels" : "gui.nullspace.paint.finish_for_all", groupLong(paintSurface)).getString(), ROOM_PANE_W, x, top + 162, IVORY);
+        else if (paintScope == 0 && paintSurface >= 0 && paintSurface < room.finishes().size()) label(g, Component.translatable("gui.nullspace.paint.finish_for", surfaceLong(paintSurface)).getString(), ROOM_PANE_W, x, top + 162, IVORY);
         else label(g, Component.translatable("gui.nullspace.paint.pick").getString(), ROOM_PANE_W, x, top + 178, FAINT);
     }
 
@@ -855,6 +977,11 @@ public final class TerminalScreen extends Screen {
         super.render(g, mouseX, mouseY, partial);
         for (int i = 0; i < TABS.length; i++) g.blitSprite(sprite(TAB_ICONS[i]), left + tabX[i] + 3, top + TAB_Y + 2, TAB_ICON, TAB_ICON);
         padBadges(g);
+        if (tab == 0) for (int i = 0; i < ROOM_ROWS && roomScroll + i < data.rooms().size(); i++) if (data.rooms().get(roomScroll + i).id() == data.hereRoom()) {
+            int y = top + 58 + i * ROOM_ROW_H + (ROOM_ROW_H - 1 - HERE_DOT) / 2;
+            // pale green reads on a dark row, a deep one on the amber of the selected row
+            g.fill(left + 10 + 94 - HERE_DOT - 4, y, left + 10 + 94 - 4, y + HERE_DOT, data.rooms().get(roomScroll + i).id() == selectedRoom ? 0xFF2E6B2A : GOOD);
+        }
         for (Clipped c : clipped) if (mouseX >= c.x() && mouseX < c.x() + c.w() && mouseY >= c.y() && mouseY < c.y() + 10) { g.renderTooltip(font, font.split(Component.literal(c.full()), 180), mouseX, mouseY); break; } // i18n-ok: an already translated label
         if (tab == 3 && data.hallInstalled() && dest() != null) drawIcon(g, dest().icon(), left + DEST_PANE_X, top + 60, 0.75f);
         if (tab == 2) {
@@ -894,7 +1021,13 @@ public final class TerminalScreen extends Screen {
     }
 
 
-    @Override public boolean mouseClicked(double mx, double my, int button) { return super.mouseClicked(mx / scale, my / scale, button); }
+    @Override public boolean mouseClicked(double mx, double my, int button) {
+        String armed = paintArmed;
+        boolean handled = super.mouseClicked(mx / scale, my / scale, button);
+        // a click anywhere but the armed finish (which sends, or arms another) disarms
+        if (armed != null && armed.equals(paintArmed)) { paintArmed = null; rebuildWidgets(); }
+        return handled;
+    }
     @Override public boolean mouseReleased(double mx, double my, int button) { return super.mouseReleased(mx / scale, my / scale, button); }
     @Override public boolean mouseDragged(double mx, double my, int button, double dx, double dy) { return super.mouseDragged(mx / scale, my / scale, button, dx / scale, dy / scale); }
     @Override public void mouseMoved(double mx, double my) { super.mouseMoved(mx / scale, my / scale); }
@@ -916,6 +1049,7 @@ public final class TerminalScreen extends Screen {
             if (capture != null && capture.active) { capture.onPress(); return true; }
             if (rename != null && rename.active) { rename.onPress(); return true; }
         }
+        if ((key == 257 || key == 335) && tab == 0 && renameBox != null && renameBox.isFocused()) { saveRename(); return true; }
         if ((key == 257 || key == 335) && tab == 1 && presetBox != null && presetBox.isFocused() && presetSaveButton != null && presetSaveButton.active) { presetSaveButton.onPress(); return true; }
         return super.keyPressed(key, scan, mods);
     }
