@@ -1,0 +1,7 @@
+{
+  "parent": "nullspace:block/shell_window/w_1011_1100",
+  "textures": {
+    "frame": "nullspace:block/shell_amber",
+    "particle": "nullspace:block/shell_amber"
+  }
+}

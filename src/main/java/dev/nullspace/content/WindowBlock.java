@@ -25,6 +25,8 @@ public final class WindowBlock extends Block {
     public static final EnumProperty<Direction.Axis> AXIS = BlockStateProperties.AXIS;
     public static final BooleanProperty TOP = BooleanProperty.create("top"), BOTTOM = BooleanProperty.create("bottom"), LEFT = BooleanProperty.create("left"), RIGHT = BooleanProperty.create("right");
     public static final BooleanProperty POST_TL = BooleanProperty.create("post_tl"), POST_TR = BooleanProperty.create("post_tr"), POST_BL = BooleanProperty.create("post_bl"), POST_BR = BooleanProperty.create("post_br");
+    // which finish the frame bars wear, see frameFor
+    public static final EnumProperty<ShellBlock.Finish> FRAME = EnumProperty.create("frame", ShellBlock.Finish.class);
     private static final BooleanProperty[] SIDE_PROPS = {TOP, BOTTOM, LEFT, RIGHT};
     private static final BooleanProperty[] POST_PROPS = {POST_TL, POST_TR, POST_BL, POST_BR};
     public static final MapCodec<WindowBlock> CODEC = simpleCodec(WindowBlock::new);
@@ -32,12 +34,13 @@ public final class WindowBlock extends Block {
     public WindowBlock(Properties properties) {
         super(properties);
         registerDefaultState(stateDefinition.any().setValue(AXIS, Direction.Axis.Z).setValue(TOP, false).setValue(BOTTOM, false).setValue(LEFT, false).setValue(RIGHT, false)
-            .setValue(POST_TL, false).setValue(POST_TR, false).setValue(POST_BL, false).setValue(POST_BR, false));
+            .setValue(POST_TL, false).setValue(POST_TR, false).setValue(POST_BL, false).setValue(POST_BR, false)
+            .setValue(FRAME, ShellBlock.Finish.COPPER));
     }
 
     @Override protected MapCodec<? extends Block> codec() { return CODEC; }
 
-    @Override protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) { builder.add(AXIS, TOP, BOTTOM, LEFT, RIGHT, POST_TL, POST_TR, POST_BL, POST_BR); }
+    @Override protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) { builder.add(AXIS, TOP, BOTTOM, LEFT, RIGHT, POST_TL, POST_TR, POST_BL, POST_BR, FRAME); }
 
     static Direction.Axis openingAxis(BlockGetter level, BlockPos pos, Direction.Axis fallback) {
         Direction.Axis best = fallback;
@@ -86,7 +89,41 @@ public final class WindowBlock extends Block {
             boolean post = WindowPlane.post(side[c.vertical.ordinal()], side[c.horizontal.ordinal()], pane(level, pos, axis, WindowPlane.diagonal(a, c)));
             state = state.setValue(POST_PROPS[c.ordinal()], post);
         }
-        return state;
+        return state.setValue(FRAME, frameFor(level, pos, a, state.getValue(FRAME)));
+    }
+
+    // the frame wears the finish of the wall around it, so a window in a wooden wall gets a wooden frame. the walls
+    // touching it in the plane of the pane vote, the most common finish wins and the first one found takes a tie. a
+    // window with no wall touching it (the middle of a big pane) follows the walls at the ends of the panes it connects
+    // to instead. only a window with no wall anywhere in line keeps the frame it has. it depends on the blocks around
+    // it and never on the order they were placed in, so healing an old save lands on the same frame as building it new
+    private static ShellBlock.Finish frameFor(BlockGetter level, BlockPos pos, int axis, ShellBlock.Finish current) {
+        ShellBlock.Finish touching = vote(level, pos, axis, 1);
+        if (touching != null) return touching;
+        ShellBlock.Finish flanking = vote(level, pos, axis, MAX_PANE);
+        return flanking != null ? flanking : current;
+    }
+
+    private static final int MAX_PANE = 24;
+
+    // for each side, walk over connected windows (at most reach blocks) to the first block that is not one, and count its
+    // finish if it is a shell block
+    private static ShellBlock.Finish vote(BlockGetter level, BlockPos pos, int axis, int reach) {
+        int[] count = new int[ShellBlock.Finish.values().length];
+        ShellBlock.Finish best = null;
+        for (WindowPlane.Side s : WindowPlane.Side.values()) {
+            int[] o = WindowPlane.offset(axis, s);
+            for (int step = 1; step <= reach; step++) {
+                BlockState next = level.getBlockState(pos.offset(o[0] * step, o[1] * step, o[2] * step));
+                if (next.getBlock() instanceof WindowBlock && step < reach) continue;
+                if (next.getBlock() instanceof ShellBlock) {
+                    ShellBlock.Finish f = next.getValue(ShellBlock.FINISH);
+                    if (++count[f.ordinal()] > (best == null ? 0 : count[best.ordinal()])) best = f;
+                }
+                break;
+            }
+        }
+        return best;
     }
 
     public static boolean isStale(BlockGetter level, BlockPos pos, BlockState state) { return resolve(level, pos, state) != state; }
