@@ -3,7 +3,11 @@ package dev.nullspace.server;
 import dev.nullspace.core.AccessControl;
 import dev.nullspace.core.Archive;
 import dev.nullspace.text.Msg;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.level.Level;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.event.entity.EntityTravelToDimensionEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
@@ -46,6 +50,18 @@ final class TravelGuard {
         if (player.hasPermissions(2) || bypassed || visiting(player)) return;
         event.setCanceled(true);
         Msg.refuse(player, Msg.no("message.nullspace.travel.gateway_only"));
+    }
+
+    // the same rules for a teleport mod that asks before it moves anyone and charges for the trip (waystones). a hop
+    // inside the archive dimension has no travel event, so the target archive is checked too: the stranger sweep
+    // would send the player out again a second later
+    static Component refusal(ServerPlayer player, ResourceKey<Level> from, ResourceKey<Level> to, BlockPos at) {
+        if (!ArchiveService.DIMENSION.equals(to) || player.hasPermissions(2) || bypassed) return null;
+        boolean entering = !ArchiveService.DIMENSION.equals(from);
+        Archive there = ArchiveService.registryOf(player.getServer()).at(at.getX(), at.getZ()).orElse(null);
+        if (entering && !visiting(player) || !AccessControl.mayStayAt(there, player.getUUID(), ArchiveService.now(), ArchiveService.currentPolicy()))
+            return Msg.no("message.nullspace.travel.gateway_only");
+        return null;
     }
 
     private static void onChanged(PlayerEvent.PlayerChangedDimensionEvent event) {

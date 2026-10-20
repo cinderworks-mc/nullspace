@@ -30,6 +30,7 @@ import dev.nullspace.integration.carryon.CarryOnGuard;
 import dev.nullspace.integration.tempad.ArchiveCircleAccess;
 import dev.nullspace.integration.tempad.CircleNotice;
 import dev.nullspace.integration.tempad.TempadGatewayBridge;
+import dev.nullspace.integration.waystones.WaystonesGuard;
 import dev.nullspace.text.Msg;
 import com.mojang.authlib.GameProfile;
 import dev.nullspace.core.Invitation;
@@ -139,6 +140,11 @@ public final class ArchiveService implements TempadGatewayBridge.GatewayAccess {
         if (ModList.get().isLoaded("carryon")) {
             try { CarryOnGuard.install(forgeBus); }
             catch (LinkageError | RuntimeException t) { LOGGER.warn("Carry On is installed but its API is not what Nullspace's Carry On protection was written against; the protection is off. Visitors may carry and put down things in archives without the archive's rights.", t); }
+        }
+        // same for waystones. without it TravelGuard still refuses the trip, but only after waystones has charged for it
+        if (ModList.get().isLoaded("waystones")) {
+            try { WaystonesGuard.install(forgeBus); }
+            catch (LinkageError | RuntimeException t) { LOGGER.warn("Waystones is installed but its API is not what Nullspace's Waystones guard was written against; the guard is off. Refused waystone trips into archives will still cost their price.", t); }
         }
         forgeBus.addListener(PlayerEvent.PlayerLoggedInEvent.class, instance::onLogin);
         forgeBus.addListener(RegisterCommandsEvent.class, e -> ArchiveCommands.register(e.getDispatcher()));
@@ -419,6 +425,7 @@ public final class ArchiveService implements TempadGatewayBridge.GatewayAccess {
         }
     }
 
+    public static Component foreignTravelRefusal(ServerPlayer player, ResourceKey<Level> to, BlockPos at) { return TravelGuard.refusal(player, player.level().dimension(), to, at); }
     public static boolean entityPickupDenied(ServerPlayer player, Entity target) { return ArchiveProtection.entityPickupDenied(player, target); }
     public static boolean ownerCarryDenied(ServerPlayer carrier, ServerPlayer victim) { return ArchiveProtection.ownerCarryDenied(carrier, victim); }
     public static boolean carriedPlacementDenied(ServerPlayer player, Level level, BlockPos pos) { return ArchiveProtection.carriedPlacementDenied(player, level, pos); }

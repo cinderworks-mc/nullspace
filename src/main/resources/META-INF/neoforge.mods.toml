@@ -56,3 +56,11 @@ type="optional"
 versionRange="[0,)"
 ordering="NONE"
 side="BOTH"
+# Optional Waystones: a trip into an archive that would be refused is cancelled before Waystones charges for it. The event it uses is the same from
+# 21.1.1 to 21.1.46, so the range takes every 1.21.1 release and stays open at the top for the same reason as Carry On's.
+[[dependencies.nullspace]]
+modId="waystones"
+type="optional"
+versionRange="[21.1.0,)"
+ordering="NONE"
+side="BOTH"

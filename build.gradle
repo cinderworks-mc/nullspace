@@ -41,6 +41,9 @@ dependencies {
     implementation 'thedarkcolour:kotlinforforge-neoforge:5.3.0'
     // Soft integration: compiled against Carry On's event class, never required at runtime (loaded only when ModList reports it).
     compileOnly 'maven.modrinth:carry-on:PV8oLZ1q'
+    // same for waystones (its Pre teleport event); balm is only there because that event extends balm's event class
+    compileOnly 'maven.modrinth:waystones:21.1.46+neoforge-1.21.1'
+    compileOnly 'maven.modrinth:balm:21.0.66+neoforge-1.21.1'
     // Soft dependencies (claim mods): compile-only, never bundled, never needed at runtime. Code that touches their types lives only in dev.nullspace.integration.<mod>.
     compileOnly 'maven.modrinth:open-parties-and-claims:neoforge-1.21.1-0.32.7'
     compileOnly 'dev.ftb.mods:ftb-chunks-neoforge:2101.1.22'
