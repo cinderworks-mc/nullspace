@@ -97,6 +97,7 @@
   "message.nullspace.team.paused.hint": "Use the Guests tab, or /nullspace team on.",
   "message.nullspace.evicted": "Your access was removed, so you're back outside.",
   "message.nullspace.evicted.expired": "Your time ran out, so you're back outside.",
+  "message.nullspace.evicted.no_gateway": "You didn't come into this archive through its Tempad gateway, so you're back outside.",
   "message.nullspace.preset.saved": "Saved the preset \"%1$s\". Pick it when you invite someone.",
   "message.nullspace.setting.saved": "%1$s: %2$s.",
   "message.nullspace.setting.blocked": "Saved, but a server rule or mod overrides it.",

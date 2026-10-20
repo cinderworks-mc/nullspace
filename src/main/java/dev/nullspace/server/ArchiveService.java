@@ -922,14 +922,15 @@ public final class ArchiveService implements TempadGatewayBridge.GatewayAccess {
         currentTickets = desired;
     }
 
-    // a same-dimension teleport can land a player in an archive they were not let into: send them back where their own visit came from, else to the fallback
+    // a same-dimension teleport can land a player in an archive they were not let into: send them back where their own visit came from, else to the fallback.
+    // removals, expiry, cards and teams evict with their own message before this runs, so nobody here had their access removed
     private void removeStranger(ArchiveRegistry registry, ServerPlayer player) {
         ReturnLocation back = null;
         for (Archive other : registry.archives().values()) {
             Visit visit = other.activeVisits().get(player.getUUID());
             if (visit != null) { back = visit.returnLocation(); break; }
         }
-        evict(player, back);
+        evict(player, back, "message.nullspace.evicted.no_gateway");
     }
 
     // addRegionTicket takes a distance (ticket level 33 minus distance), not a level. passing the forced ticket level
