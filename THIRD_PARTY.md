@@ -22,6 +22,7 @@ these are declared `type="optional"` in `neoforge.mods.toml`. nullspace compiles
 - open parties and claims 0.32.7 (lgpl-3.0-only) and ftb chunks 2101.1.22 (all rights reserved), with ftb teams, ftb library and architectury for ftb chunks' types. used only to refuse claiming in the archive.
 - ftb teams 2101.1.11 (all rights reserved). supplies parties for team access. the code that touches it is in `dev.nullspace.integration.ftbteams`.
 - carry on (tested with 2.2.2.11, 2.2.4.4, 2.2.5.8 and 2.2.6.13). the guard in `integration/carryon` loads only when carry on is present.
+- waystones 21.1.46 by blaytheninth (all rights reserved), with balm 21.0.66 for the event's base class, both from the modrinth maven. the guard in `integration/waystones` loads only when waystones is present.
 
 ## tools
 

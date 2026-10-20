@@ -78,6 +78,7 @@ optional, never bundled, and nullspace runs without all of them:
 - ftb teams: team access
 - open parties and claims, ftb chunks: claiming inside the archive is refused when either is installed
 - carry on: pickup and put-down follow the archive's permissions
+- waystones: a waystone trip into an archive you can't enter is refused before it costs anything, and leashed mobs and pets stay behind with you
 
 ## building
 
