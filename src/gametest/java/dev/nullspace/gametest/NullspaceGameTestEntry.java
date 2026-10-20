@@ -17,5 +17,6 @@ public final class NullspaceGameTestEntry {
         event.register(ExpansionGameTests.class);
         event.register(HallGameTests.class);
         event.register(CircleGameTests.class);
+        event.register(TravelGameTests.class);
     }
 }
